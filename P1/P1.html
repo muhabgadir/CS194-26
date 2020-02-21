@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-02-03 Mon 13:03 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Images of the Russian Empire: Colorizing the Prokudin-Gorskii photo collection</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="*Guilherme Gomes Haetinger* Guilherme Gomes Haetinger@@html:&lt;br /&gt;@@@@html:&lt;br /&gt;@@ University of California, Berkeley @@html:&lt;br /&gt;@@ CS194-26: Image Manipulation and Computational Photography" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style>pre.src{background:#343131;color:white;} </style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Images of the Russian Empire: Colorizing the Prokudin-Gorskii photo collection</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org111e4c8">1. Introduction</a></li>
+<li><a href="#orgc8566b6">2. Setting up</a></li>
+<li><a href="#naive">3. Naive Methods</a>
+<ul>
+<li><a href="#org01a35e3">3.1. Sum of Squared Differences</a></li>
+<li><a href="#orgd2d8a53">3.2. Normalized Cross Correlation</a></li>
+</ul>
+</li>
+<li><a href="#pyramid">4. Image Pyramid Method</a></li>
+<li><a href="#org5fb7288">5. Auto Cropping</a></li>
+<li><a href="#orgac09203">6. Final Conclusions and Results</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org111e4c8" class="outline-2">
+<h2 id="org111e4c8"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+For this project, we are supposed to, given an input of 3 grayscale images representing the intensity of each color channel in a <b>RGB</b> space, recreate a colored images. This idea was envisioned by <b>Sergei Mikhailovich Prokudin-Gorskii</b> around <b>1907</b>. The pictures were taken with filters (glass plates) for each of the color channels, which enabled posterior aligning. For more info, check <a href="http://www.loc.gov/exhibits/empire/making.html">the Library of Congress site</a>.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc8566b6" class="outline-2">
+<h2 id="orgc8566b6"><span class="section-number-2">2</span> Setting up</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+We were given <b>9</b> image sets to execute our program in. Some were of lesser size while some were <b>.tif</b> files of incredible dimensions and large intensity value mapping (not our usual <code>[0 ... 255]</code>). E. g.:<br />
+</p>
+<div class="org-center">
+<p>
+<img src="./cathedral.jpg" alt="cathedral.jpg" /><img src="./monastery.jpg" alt="monastery.jpg" /><br />
+</p>
+</div>
+
+<p>
+The first thing we ought to do is split the image and stack them as an <b>RGB</b> photo to understand how we can align them properly. We can use the following python code to do so:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff8080; font-weight: bold;">import</span> skimage.io <span style="color: #ff8080; font-weight: bold;">as</span> io
+<span style="color: #ff8080; font-weight: bold;">import</span> numpy <span style="color: #ff8080; font-weight: bold;">as</span> np
+
+<span style="color: #ffe9aa;">img</span> = io.imread<span style="color: #91ddff; font-weight: bold;">(</span><span style="color: #ffe9aa;">"./cathedral.jpg"</span><span style="color: #91ddff; font-weight: bold;">)</span>
+<span style="color: #ffe9aa;">height</span> = <span style="color: #c991e1;">int</span><span style="color: #91ddff; font-weight: bold;">(</span><span style="color: #c991e1;">len</span><span style="color: #c991e1; font-weight: bold;">(</span>img<span style="color: #c991e1; font-weight: bold;">)</span>/<span style="color: #ffb378; font-weight: bold;">3</span><span style="color: #91ddff; font-weight: bold;">)</span>
+
+<span style="color: #ffe9aa;">B</span> = img<span style="color: #91ddff; font-weight: bold;">[</span>:height<span style="color: #91ddff; font-weight: bold;">]</span>
+<span style="color: #ffe9aa;">G</span> = img<span style="color: #91ddff; font-weight: bold;">[</span>height:<span style="color: #ffb378; font-weight: bold;">2</span>*height<span style="color: #91ddff; font-weight: bold;">]</span>
+<span style="color: #ffe9aa;">R</span> = img<span style="color: #91ddff; font-weight: bold;">[</span><span style="color: #ffb378; font-weight: bold;">2</span>*height:<span style="color: #ffb378; font-weight: bold;">3</span>*height<span style="color: #91ddff; font-weight: bold;">]</span>
+
+<span style="color: #ffe9aa;">stacked</span> = np.dstack<span style="color: #91ddff; font-weight: bold;">(</span><span style="color: #c991e1; font-weight: bold;">[</span>R, G, B<span style="color: #c991e1; font-weight: bold;">]</span><span style="color: #91ddff; font-weight: bold;">)</span>
+io.imsave<span style="color: #91ddff; font-weight: bold;">(</span><span style="color: #ffe9aa;">"simple_align.jpg"</span>, stacked<span style="color: #91ddff; font-weight: bold;">)</span>
+</pre>
+</div>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./simple_align.jpg" alt="simple_align.jpg" /><br />
+</p>
+</div>
+</div>
+
+<p>
+Obviously, the images won't be aligned properly, which means we have to find a way to calculate an optimal movement for each channel. We are proposed by the project specification to do this both with a <a class='org-ref-reference' href="#naive">naive</a> method (exhaustion) or optimized (<a class='org-ref-reference' href="#pyramid">pyramid</a> method) , which is needed for large images.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2470456" class="outline-2">
+<h2 id="naive"><span class="section-number-2">3</span> Naive Methods</h2>
+<div class="outline-text-2" id="text-naive">
+<p>
+The naive method consists of an exhaustion routine to find the displacement which results in the best correlation value. There are two proposed methods in the specification: <b>Sum of Squared Differences</b> and <b>Normalized Cross Correlation</b>. Both are then used as the value function in a naive search that moves a given channel in a <code>[-15:15, -15:15]</code> space and compares it to another given channel. My algorithm compares the <b>Green</b> channel to the <b>Blue</b> channel, applies the best displacement on the <b>Green</b> one, compares the <b>Red</b> channel to the resulted modification and applies the final transformation, leaving the <b>Blue</b> channel untouched.<br />
+</p>
+</div>
+
+<div id="outline-container-org01a35e3" class="outline-3">
+<h3 id="org01a35e3"><span class="section-number-3">3.1</span> Sum of Squared Differences</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+This function goes as follows:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff8080; font-weight: bold;">def</span> <span style="color: #c991e1; font-weight: bold;">SSD</span><span style="color: #91ddff; font-weight: bold;">(</span>A, B<span style="color: #91ddff; font-weight: bold;">)</span>:
+    <span style="color: #ff8080; font-weight: bold;">return</span> np.<span style="color: #c991e1;">sum</span><span style="color: #91ddff; font-weight: bold;">(</span>np.<span style="color: #c991e1;">sum</span><span style="color: #c991e1; font-weight: bold;">(</span><span style="color: #95ffa4; font-weight: bold;">(</span>A-B<span style="color: #95ffa4; font-weight: bold;">)</span>**<span style="color: #ffb378; font-weight: bold;">2</span><span style="color: #c991e1; font-weight: bold;">)</span><span style="color: #91ddff; font-weight: bold;">)</span>
+</pre>
+</div>
+
+<p>
+Applying this to the smaller images had the following result:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">python3 main.py ./cathedral.jpg ./cathedral_naive_SSD.jpg --naive
+python3 main.py ./monastery.jpg ./monastery_naive_SSD.jpg --naive
+python3 main.py ./tobolsk.jpg ./tobolsk_naive_SSD.jpg --naive
+</pre>
+</div>
+
+<div class="org-center">
+<p>
+<img src="./cathedral_naive_SSD.jpg" alt="cathedral_naive_SSD.jpg" /><br />
+R: (2, 9); G: (0, 3); B: (0, 0) &#x2013; Runtime: 0.43 Seconds<br />
+<img src="./monastery_naive_SSD.jpg" alt="monastery_naive_SSD.jpg" /><br />
+R: (2, -15); G: (1, -3); B: (0, 0) &#x2013; Runtime: 0.43 Seconds<br />
+<img src="./tobolsk_naive_SSD.jpg" alt="tobolsk_naive_SSD.jpg" /><br />
+R: (4, 7); G: (2, 3); B: (0, 0) &#x2013; Runtime: 0.43 Seconds<br />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd2d8a53" class="outline-3">
+<h3 id="orgd2d8a53"><span class="section-number-3">3.2</span> Normalized Cross Correlation</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+This function goes as follows:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff8080; font-weight: bold;">def</span> <span style="color: #c991e1; font-weight: bold;">NCC</span><span style="color: #91ddff; font-weight: bold;">(</span>A, B<span style="color: #91ddff; font-weight: bold;">)</span>:
+    <span style="color: #ffe9aa;">top</span> = np.<span style="color: #c991e1;">sum</span><span style="color: #91ddff; font-weight: bold;">(</span><span style="color: #c991e1; font-weight: bold;">(</span>A - np.mean<span style="color: #95ffa4; font-weight: bold;">(</span>A<span style="color: #95ffa4; font-weight: bold;">)</span><span style="color: #c991e1; font-weight: bold;">)</span>*<span style="color: #c991e1; font-weight: bold;">(</span>B - np.mean<span style="color: #95ffa4; font-weight: bold;">(</span>B<span style="color: #95ffa4; font-weight: bold;">)</span><span style="color: #c991e1; font-weight: bold;">)</span><span style="color: #91ddff; font-weight: bold;">)</span>
+    <span style="color: #ffe9aa;">bottom</span> = np.<span style="color: #c991e1;">sum</span><span style="color: #91ddff; font-weight: bold;">(</span>np.sqrt<span style="color: #c991e1; font-weight: bold;">(</span><span style="color: #95ffa4; font-weight: bold;">(</span>np.<span style="color: #c991e1;">sum</span><span style="color: #ff5458; font-weight: bold;">(</span>A - np.mean<span style="color: #906cff; font-weight: bold;">(</span>A<span style="color: #906cff; font-weight: bold;">)</span><span style="color: #ff5458; font-weight: bold;">)</span>**<span style="color: #ffb378; font-weight: bold;">2</span><span style="color: #95ffa4; font-weight: bold;">)</span>*<span style="color: #95ffa4; font-weight: bold;">(</span>np.<span style="color: #c991e1;">sum</span><span style="color: #ff5458; font-weight: bold;">(</span>B - np.mean<span style="color: #906cff; font-weight: bold;">(</span>B<span style="color: #906cff; font-weight: bold;">)</span><span style="color: #ff5458; font-weight: bold;">)</span>**<span style="color: #ffb378; font-weight: bold;">2</span><span style="color: #95ffa4; font-weight: bold;">)</span><span style="color: #c991e1; font-weight: bold;">)</span><span style="color: #91ddff; font-weight: bold;">)</span>
+    <span style="color: #ff8080; font-weight: bold;">return</span> top / <span style="color: #91ddff; font-weight: bold;">(</span>bottom+<span style="color: #ffb378; font-weight: bold;">1</span><span style="color: #91ddff; font-weight: bold;">)</span>
+</pre>
+</div>
+
+<p>
+Applying this to the smaller images had the following result:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">python3 main.py ./cathedral.jpg ./cathedral_naive_NCC.jpg --naive --NCC
+python3 main.py ./monastery.jpg ./monastery_naive_NCC.jpg --naive --NCC
+python3 main.py ./tobolsk.jpg ./tobolsk_naive_NCC.jpg --naive --NCC
+</pre>
+</div>
+
+<div class="org-center">
+<p>
+<img src="./cathedral_naive_NCC.jpg" alt="cathedral_naive_NCC.jpg" /><br />
+R: (-1, 8); G: (-1, 1); B: (0, 0) &#x2013; Runtime: 2.21 Seconds<br />
+<img src="./monastery_naive_NCC.jpg" alt="monastery_naive_NCC.jpg" /><br />
+R: (1, 0); G: (0, -6); B: (0, 0) &#x2013; Runtime: 2.34 Seconds<br />
+<img src="./tobolsk_naive_NCC.jpg" alt="tobolsk_naive_NCC.jpg" /><br />
+R: (3, 7); G: (2, 3); B: (0, 0) &#x2013; Runtime: 2.29 Seconds<br />
+</p>
+</div>
+
+<p>
+As we can see, the results for this method were much clearer than the ones before, even though it took a little bit more time.<br />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7f03cc7" class="outline-2">
+<h2 id="pyramid"><span class="section-number-2">4</span> Image Pyramid Method</h2>
+<div class="outline-text-2" id="text-pyramid">
+<p>
+Now, to align the bigger images, we need to move the images in a more optimized way. Using exhaustion techniques on large images would be really complex and, so, we rely on the Image Pyramid method. We find the best movements for downsized versions of the image. The image is rescaled in factors of 2. We find the x for which \(\frac{imageWidth}{2^x} \le 100\) and start from there, applying the movement in the larger image and calling the same function with a larger exponent. Once the exponent is the minimum exponent (<code>1</code> for big images and <code>0</code> for images with width \(\le 200\)), we stop iterating and return the final channels. Since the best results were the outputs of the <b>NCC</b> algorithm, we will use it instead of the <b>SSD</b>.<br />
+</p>
+
+<p>
+We, then, find the following results among the provided large images:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">python3 main.py ./icon.tif ./icon_pyramid.jpg --NCC
+python3 main.py ./melons.tif ./melons_pyramid.jpg --NCC
+python3 main.py ./harvesters.tif ./harvest_pyramid.jpg --NCC
+python3 main.py ./emir.tif ./emir_pyramid.jpg --NCC
+</pre>
+</div>
+
+<div class="org-center">
+<p width="100%">
+<img src="./icon_pyramid.jpg" alt="icon_pyramid.jpg" width="100%" /><br />
+ R: (20, 92); G: (16, 44); B: (0, 0) &#x2013; Runtime: 47.27 Seconds<br />
+</p>
+<p width="100%">
+<img src="./melons_pyramid.jpg" alt="melons_pyramid.jpg" width="100%" /><br />
+ R: (4, 180); G: (4, 84); B: (0, 0) &#x2013; Runtime: 42.18 Seconds<br />
+</p>
+<p width="100%">
+<img src="./harvest_pyramid.jpg" alt="harvest_pyramid.jpg" width="100%" /><br />
+ R: (-8, 184); G: (-4, 120); B: (0, 0) &#x2013; Runtime: 45.59 Seconds<br />
+</p>
+<p width="100%">
+<img src="./emir_pyramid.jpg" alt="emir_pyramid.jpg" width="100%" /><br />
+ R: (16, 112); G: (8, -4); B: (0, 0) &#x2013; Runtime: 45.04 Seconds<br />
+</p>
+</div>
+
+<p>
+We can see that both the <b>harvesters</b> image and the <b>emir</b> image don't align well. Looking at the grayscale images, we see that <b>emir</b> has pieces of clothing that vary through color channels, making it harder to align just by their values. Moreover, the <b>harvesters</b> probably moved during the picture exposure, meaning the channels shouldn't have the same values. Thus, finding a new way to evaluate the alignment might be the only way to find the best solutions.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5fb7288" class="outline-2">
+<h2 id="org5fb7288"><span class="section-number-2">5</span> Auto Cropping</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+An evaluation that would work is to identify the black borders and cut them. This will make the images easily alignable. This is achievable by using the <b>Sobel</b> filter on the image and looking for white patterns that represent a border. To do this, I specified that the border has to be at max <code>10%</code> of the image axis and created a threshold from which the sum of an axis is considered a border. E.g.<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff8080; font-weight: bold;">import</span> skimage.filters <span style="color: #ff8080; font-weight: bold;">as</span> skfl
+
+<span style="color: #ffe9aa;">image</span> = io.imread<span style="color: #91ddff; font-weight: bold;">(</span><span style="color: #ffe9aa;">"./cathedral.jpg"</span><span style="color: #91ddff; font-weight: bold;">)</span>
+<span style="color: #ffe9aa;">image</span> = skfl.sobel<span style="color: #91ddff; font-weight: bold;">(</span>image<span style="color: #91ddff; font-weight: bold;">)</span>
+
+io.imsave<span style="color: #91ddff; font-weight: bold;">(</span><span style="color: #ffe9aa;">"sobel_example.jpg"</span>, image<span style="color: #91ddff; font-weight: bold;">)</span>
+</pre>
+</div>
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./sobel_example.jpg" alt="sobel_example.jpg" /><br />
+</p>
+</div>
+</div>
+
+<p>
+Once we have the borders for each channel, we select the one that crops the most and apply the trimming to every channel. Also, the algorithm I implemented searches the first border from inside to outside the image.<br />
+</p>
+
+<p>
+The results are the following:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">python3 main.py ./harvesters.tif ./harvest_pyramid_crop.jpg --autocrop --NCC
+python3 main.py ./emir.tif ./emir_pyramid_crop.jpg --autocrop --NCC
+</pre>
+</div>
+
+<div class="org-center">
+<p width="100%">
+<img src="./harvest_pyramid_crop.jpg" alt="harvest_pyramid_crop.jpg" width="100%" /><br />
+R: (12, 124); G: (16, 60); B: (0, 0) &#x2013; Runtime: 22.46 Seconds<br />
+</p>
+<p width="100%">
+<img src="./emir_pyramid_crop.jpg" alt="emir_pyramid_crop.jpg" width="100%" /><br />
+R: (40, 104); G: (24, 48); B: (0, 0) &#x2013; Runtime: 30.77 Seconds<br />
+</p>
+</div>
+
+<p>
+This isn't, however, the only use for the automatic border cropping. Although, the cropping in the original images removes most border color anomalies, we can still see some leftover borders on the top. This is mainly a result of the <code>np.roll</code> function, which basically shifts the image value, meaning that when some value is moved outside the image, it goes back from the other side. Since the images don't necessarily have the same value after the initial cropping, aligning them might lead to some leftovers from <code>np.roll</code> (values that aren't matched and are just moved around as burdens). Therefore, we can crop the images channels once more after aligning them. This will detect the difference between the actual image and the leftovers. E. g.<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">python3 main.py ./harvesters.tif ./harvest_pyramid_full_crop.jpg --full-autocrop --NCC
+python3 main.py ./emir.tif ./emir_pyramid_full_crop.jpg --full-autocrop --NCC
+</pre>
+</div>
+
+<div class="org-center">
+<p width="100%">
+<img src="./harvest_pyramid_full_crop.jpg" alt="harvest_pyramid_full_crop.jpg" width="100%" /><br />
+R: (12, 124); G: (16, 60); B: (0, 0) &#x2013; Runtime: 26.23 Seconds<br />
+</p>
+<p width="100%">
+<img src="./emir_pyramid_full_crop.jpg" alt="emir_pyramid_full_crop.jpg" width="100%" /><br />
+R: (40, 104); G: (24, 48); B: (0, 0) &#x2013; Runtime: 29.6 Seconds<br />
+</p>
+</div>
+
+<p>
+However, we do see that there is some loss of information this time around because the algorithm finds false positive borders. In spite of this, the results are much better.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgac09203" class="outline-2">
+<h2 id="orgac09203"><span class="section-number-2">6</span> Final Conclusions and Results</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Considering all the results, it is easy to conclude that the Pyramid Method with full (original and final images) auto-cropping results in the best pictures without losing much information and removing all of the colored borders anomaly. These results hold for the small sized images as well.<br />
+Also, as it turns out, the <b>SSD</b> value function ends up giving a result as good as the <b>NCC</b>. Thus, I chose to use it for the final results as it reduces runtime greatly.<br />
+</p>
+
+<p>
+These are the final executions:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">python3 main.py ./cathedral.jpg ./cathedral_final.jpg --full-autocrop
+python3 main.py ./monastery.jpg ./monastery_final.jpg --full-autocrop
+python3 main.py ./tobolsk.jpg ./tobolsk_final.jpg --full-autocrop
+python3 main.py ./melons.tif ./melons_final.jpg --full-autocrop
+python3 main.py ./lady.tif ./lady_final.jpg --full-autocrop
+python3 main.py ./onion_church.tif ./onion_final.jpg --full-autocrop
+python3 main.py ./icon.tif ./icon_final.jpg --full-autocrop
+python3 main.py ./harvesters.tif ./harvest_final.jpg --full-autocrop
+python3 main.py ./emir.tif ./emir_final.jpg --full-autocrop
+</pre>
+</div>
+
+<div class="org-center">
+<p width="50%">
+<img src="./cathedral_final.jpg" alt="cathedral_final.jpg" width="50%" /><br />
+R: (2, 10); G: (2, 4); B: (0, 0) &#x2013; Runtime: 0.29 Seconds<br />
+</p>
+<p width="50%">
+<img src="./monastery_final.jpg" alt="monastery_final.jpg" width="50%" /><br />
+R: (2, 4); G: (2, -2); B: (0, 0) &#x2013; Runtime: 0.29 Seconds<br />
+</p>
+<p width="50%">
+<img src="./tobolsk_final.jpg" alt="tobolsk_final.jpg" width="50%" /><br />
+R: (2, 6); G: (2, 2); B: (0, 0) &#x2013; Runtime: 0.29 Seconds<br />
+</p>
+<p width="100%">
+<img src="./melons_final.jpg" alt="melons_final.jpg" width="100%" /><br />
+R: (16, 180); G: (12, 84); B: (0, 0) &#x2013; Runtime: 17.53 Seconds<br />
+</p>
+<p width="100%">
+<img src="./lady_final.jpg" alt="lady_final.jpg" width="100%" /><br />
+R: (12, 108); G: (8, 48); B: (0, 0) &#x2013; Runtime: 16.75 Seconds<br />
+</p>
+<p width="100%">
+<img src="./onion_final.jpg" alt="onion_final.jpg" width="100%" /><br />
+R: (36, 108); G: (24, 52); B: (0, 0) &#x2013; Runtime: 16.93 Seconds<br />
+</p>
+<p width="100%">
+<img src="./icon_final.jpg" alt="icon_final.jpg" width="100%" /><br />
+R: (20, 88); G: (16, 40); B: (0, 0) &#x2013; Runtime: 18.08 Seconds<br />
+</p>
+<p width="100%">
+<img src="./harvest_final.jpg" alt="harvest_final.jpg" width="100%" /><br />
+R: (12, 124); G: (16, 60); B: (0, 0) &#x2013; Runtime: 13.7 Seconds<br />
+</p>
+<p width="100%">
+<img src="./emir_final.jpg" alt="emir_final.jpg" width="100%" /><br />
+R: (40, 104); G: (24, 48); B: (0, 0) &#x2013; Runtime: 17.25 Seconds<br />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: <b>Guilherme Gomes Haetinger</b> <br /><br /> University of California, Berkeley <br /> CS194-26: Image Manipulation and Computational Photography</p>
+<p class="date">Created: 2020-02-03 Mon 13:03</p>
+</div>
+</body>
+</html>

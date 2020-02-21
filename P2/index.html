@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-02-18 Tue 13:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fun With Filters and Frequencies!</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="*Guilherme Gomes Haetinger* Guilherme Gomes Haetinger@@html:&lt;br /&gt;@@@@html:&lt;br /&gt;@@ University of California, Berkeley @@html:&lt;br /&gt;@@ CS194-26: Image Manipulation and Computational Photography" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style>pre.src{background:#343131;color:white;} </style>
+<style>img { width: 45%; } .stack img { width: 100%; } </style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Fun With Filters and Frequencies!</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org991dd5c">1. Fun with Filters</a>
+<ul>
+<li><a href="#orgb22db30">1.1. Finite Difference Operator</a></li>
+<li><a href="#orgc76268b">1.2. Derivative of Gaussian (DoG) Filter</a></li>
+<li><a href="#org0ec38bf">1.3. Image Straightening</a></li>
+</ul>
+</li>
+<li><a href="#org94b480a">2. Fun with Frequencies!</a>
+<ul>
+<li><a href="#org93a1889">2.1. Image Sharpening</a></li>
+<li><a href="#orgd94d184">2.2. Hybrid Images</a>
+<ul>
+<li><a href="#orgc1cbff3">2.2.1. Using Colors!</a></li>
+<li><a href="#org52e30d3">2.2.2. Fourier Space Analysis</a></li>
+</ul>
+</li>
+<li><a href="#orgb54724a">2.3. Gaussian and Laplacian Stacks</a></li>
+<li><a href="#org2148535">2.4. Multiresolution Blending</a>
+<ul>
+<li><a href="#org92065c5">2.4.1. Using Color!</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgefc3b63">3. Interesting Project Aspects</a></li>
+</ul>
+</div>
+</div>
+<p>
+For this project, we are set to understand the information available in every image and how to manipulate it in order to make the image represent something else. To do this, we use, more importantly, derivative filters and Gaussian kernels to separate high and low frequencies. The results are really fun!<br />
+</p>
+
+<div id="outline-container-org991dd5c" class="outline-2">
+<h2 id="org991dd5c"><span class="section-number-2">1</span> Fun with Filters</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgb22db30" class="outline-3">
+<h3 id="orgb22db30"><span class="section-number-3">1.1</span> Finite Difference Operator</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Using the <i>cameraman</i> picture available in <code>skimage.data</code>, we apply the <i>humble difference operators</i> given in the project spec to calculate the derivative in both axis, i.e. convolve the image pixels using the operators. The operators take into consideration the pixel value difference between one pixel and its predecessor. Once we have both axis differential map, we, then, turn the values discrete relative to some threshold. I used the value <code>20</code>, meaning that every absolute value greater than <code>20</code> is considered a border.<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python main.py <span style="color: #B5CEA8; font-weight: bold;">1.1</span> -f ./cameraman.jpg -o ./regular_convolve_edge.jpg
+</pre>
+</div>
+
+<div class="org-center">
+<p>
+<img src="./cameraman.jpg" alt="cameraman.jpg" /> → <img src="./regular_convolve_edge.jpg" alt="regular_convolve_edge.jpg" /><br />
+</p>
+</div>
+
+<p>
+The results are what we expect: a border image with a lot of noise, since <code>20=</code> is a low number. This means that we need a way to remove the spread noise.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc76268b" class="outline-3">
+<h3 id="orgc76268b"><span class="section-number-3">1.2</span> Derivative of Gaussian (DoG) Filter</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Since we want to remove the noise, we can use a Gaussian filter to do so. I decided to use thee following parameters for the kernel: \(size = 20, σ = 1.5\).<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python main.py <span style="color: #B5CEA8; font-weight: bold;">1.2</span> -f cameraman.jpg -o blurry_border.jpg
+</pre>
+</div>
+
+<p>
+The results follow. Gaussian filtered image applied to the partial derivative function (LEFT) and DoG Gaussian filter applied to the cameraman image (RIGHT).<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./blurry_border.jpg" alt="blurry_border.jpg" /> → <img src="./DoG_blurry_border.jpg" alt="DoG_blurry_border.jpg" /><br />
+</p>
+</div>
+
+<p>
+<b>What has changed?</b> As expected, the noise is gone and the borders are smooth. This is due to the fact that the Gaussian filter removes the high frequencies that cause the noise in a somewhat smooth surface such as the grass in the image. From what we learnt in lecture, both results (Gaussian Filter + Derivative and DoG(Gaussian Filter + Derivative)) are the same!<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0ec38bf" class="outline-3">
+<h3 id="org0ec38bf"><span class="section-number-3">1.3</span> Image Straightening</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+To straighten an image, we can use the derivative map to find perpendicular angles to the axis. Once we have the number of perpendicular axis, we can find the angle that maximizes it. However, we still need to disregard the border, so we have to crop the image in order to process only the actual image content. I decided to divide the image by <code>5</code> and process it this way. Also, we need to have a interval of values which we should consider as perpendicular. My interval is <code>[80, ..., 100]</code> degrees. Once we do this processing, we get the following results.<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python main.py <span style="color: #B5CEA8; font-weight: bold;">1.3</span> -f facade.jpg -o facade_fixed.jpg
+python main.py <span style="color: #B5CEA8; font-weight: bold;">1.3</span> -f bridge.jpg -o bridge_fixed.jpg
+python main.py <span style="color: #B5CEA8; font-weight: bold;">1.3</span> -f guitar.jpg -o guitar_fixed.jpg
+python main.py <span style="color: #B5CEA8; font-weight: bold;">1.3</span> -f pisa_crook.jpg -o pisa_fixed.jpg
+python main.py <span style="color: #B5CEA8; font-weight: bold;">1.3</span> -f CN.jpg -o CN_fixed.jpg
+</pre>
+</div>
+
+<div class="org-center">
+<p>
+<img src="./facade.jpg" alt="facade.jpg" /> → <img src="./facade_fixed.jpg" alt="facade_fixed.jpg" /><br />
+<img src="./histogram_facade.png" alt="histogram_facade.png" /><br />
+<img src="./bridge.jpg" alt="bridge.jpg" /> →  <img src="./bridge_fixed.jpg" alt="bridge_fixed.jpg" /><br />
+<img src="./histogram_bridge.png" alt="histogram_bridge.png" /><br />
+<img src="./guitar.jpg" alt="guitar.jpg" /> → <img src="./guitar_fixed.jpg" alt="guitar_fixed.jpg" /><br />
+<img src="./histogram_guitar.png" alt="histogram_guitar.png" /><br />
+<img src="./pisa_crook.jpg" alt="pisa_crook.jpg" /> → <img src="./pisa_fixed.jpg" alt="pisa_fixed.jpg" /><br />
+<img src="./histogram_pisa_crook.png" alt="histogram_pisa_crook.png" /><br />
+<img src="./CN.jpg" alt="CN.jpg" /> → <img src="./CN_fixed.jpg" alt="CN_fixed.jpg" /><br />
+<img src="./histogram_CN.png" alt="histogram_CN.png" /><br />
+</p>
+</div>
+
+<p>
+As expected, since the algorithm is pretty simple, we have the straightened image for almost all the results. For the bigger images such as <i>facade.jpg</i>, even the straightened image has much less perpendicular values than regular values from what we can see in the histogram. As we can also see, the <i>CN Tower</i> image didn&rsquo;t straighten up the image. This is due to the fact that, when calculating the image vertical and horizontal axis, we crop it to avoid the borders, which can make our problem tricky when rotating the image. This way, we are actually evaluating an area composed by the towers circular head, which doesn&rsquo;t have a straight position reference.<br />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org94b480a" class="outline-2">
+<h2 id="org94b480a"><span class="section-number-2">2</span> Fun with Frequencies!</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org93a1889" class="outline-3">
+<h3 id="org93a1889"><span class="section-number-3">2.1</span> Image Sharpening</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+To sharpen an image, we just have to calculate the low frequencies in order to find the high frequencies and add them to the image. This is achieved by creating a Laplacian of Gaussian kernel and summing it to the image. To do that, we create an identity kernel, double it and subtract a Gaussian kernel (Image + (Image - Low<sub>Frequencies</sub>)). Using \(size = 20, σ = 20\), we have the following results:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python main.py <span style="color: #B5CEA8; font-weight: bold;">2.1</span> -f taj.jpg -o sharp_taj.jpg
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.1</span> -f CN.jpg -o sharp_CN.jpg
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.1</span> -f guitar.jpg -o sharp_guitar.jpg
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.1</span> -f sharp_guitar.jpg -o sharper_guitar.jpg
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.1</span> -f sharper_guitar.jpg -o sharper_guitar.jpg
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.1</span> -f sharper_guitar.jpg -o sharper_guitar.jpg
+</pre>
+</div>
+
+<div class="org-center">
+<p>
+2*<img src="./taj.jpg" alt="taj.jpg" /> - <img src="./blurry_taj.jpg" alt="blurry_taj.jpg" /><br />
+<img src="./sharp_taj.jpg" alt="sharp_taj.jpg" /><br />
+2*<img src="./CN.jpg" alt="CN.jpg" /> - <img src="./blurry_CN.jpg" alt="blurry_CN.jpg" /><br />
+<img src="./sharp_CN.jpg" alt="sharp_CN.jpg" /><br />
+2*<img src="./guitar.jpg" alt="guitar.jpg" /> - <img src="./blurry_guitar.jpg" alt="blurry_guitar.jpg" /><br />
+<img src="./sharp_guitar.jpg" alt="sharp_guitar.jpg" /><br />
+2*<img src="./sharp_guitar.jpg" alt="sharp_guitar.jpg" /> - <img src="./blurry_sharp_guitar.jpg" alt="blurry_sharp_guitar.jpg" /><br />
+<img src="./sharper_guitar.jpg" alt="sharper_guitar.jpg" /><br />
+<img src="./sharper_guitar.jpg" alt="sharper_guitar.jpg" /> →→ <img src="./sharperer_guitar.jpg" alt="sharperer_guitar.jpg" /><br />
+</p>
+</div>
+
+<p>
+As we can see, the images only seem to have less color. This is due to the fact that the images are normalized as saved. Since they have larger absolute values, the low frequency values are normalized to a smaller interval. This means that the high frequencies are, thus, more represented as it is shown in the last guitar image, which we sharpened 3 times and, now, can only see the borders.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd94d184" class="outline-3">
+<h3 id="orgd94d184"><span class="section-number-3">2.2</span> Hybrid Images</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+To create the hybrid images, we align the two pictures and add one&rsquo;s low frequencies with thee other&rsquo;s high frequencies. Every image has different signals, meaning that we won&rsquo;t have an optimal σ for a kernel that works every time. I had the following results for my implementation of the method:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./DerekPicture.jpg -s ./nutmeg.jpg -o ./dn_color.jpg -m <span style="color: #B5CEA8; font-weight: bold;">20</span> -g <span style="color: #B5CEA8; font-weight: bold;">30</span>
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./DerekPicture.jpg -s ./nutmeg.jpg -o ./dn_mixed1.jpg -m <span style="color: #B5CEA8; font-weight: bold;">20</span> -g <span style="color: #B5CEA8; font-weight: bold;">30</span> --gray_one
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./DerekPicture.jpg -s ./nutmeg.jpg -o ./dn_mixed2.jpg -m <span style="color: #B5CEA8; font-weight: bold;">20</span> -g <span style="color: #B5CEA8; font-weight: bold;">30</span> --gray_two
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./DerekPicture.jpg -s ./nutmeg.jpg -o ./dn_gray.jpg -m <span style="color: #B5CEA8; font-weight: bold;">20</span> -g <span style="color: #B5CEA8; font-weight: bold;">30</span> --gray_one --gray_two
+
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./tiger.jpg -s ./dog.jpg -o ./td_color.jpg -m <span style="color: #B5CEA8; font-weight: bold;">4</span> -g <span style="color: #B5CEA8; font-weight: bold;">6</span>
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./tiger.jpg -s ./dog.jpg -o ./td_mixed1.jpg -m <span style="color: #B5CEA8; font-weight: bold;">4</span> -g <span style="color: #B5CEA8; font-weight: bold;">6</span> --gray_one
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./tiger.jpg -s ./dog.jpg -o ./td_mixed2.jpg -m <span style="color: #B5CEA8; font-weight: bold;">4</span> -g <span style="color: #B5CEA8; font-weight: bold;">6</span> --gray_two
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./tiger.jpg -s ./dog.jpg -o ./td_gray.jpg -m <span style="color: #B5CEA8; font-weight: bold;">4</span> -g <span style="color: #B5CEA8; font-weight: bold;">6</span> --gray_one --gray_two
+
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./wes.jpg -s ./owen.jpg -o ./wo_color.jpg -m <span style="color: #B5CEA8; font-weight: bold;">20</span> -g <span style="color: #B5CEA8; font-weight: bold;">20</span>
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./wes.jpg -s ./owen.jpg -o ./wo_mixed1.jpg -m <span style="color: #B5CEA8; font-weight: bold;">20</span> -g <span style="color: #B5CEA8; font-weight: bold;">20</span> --gray_one
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./wes.jpg -s ./owen.jpg -o ./wo_mixed2.jpg -m <span style="color: #B5CEA8; font-weight: bold;">20</span> -g <span style="color: #B5CEA8; font-weight: bold;">20</span> --gray_two
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./wes.jpg -s ./owen.jpg -o ./wo_gray.jpg -m <span style="color: #B5CEA8; font-weight: bold;">20</span> -g <span style="color: #B5CEA8; font-weight: bold;">20</span> --gray_one --gray_two
+
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./jim.jpg -s ./dwight.jpg -o ./jd_color.jpg -m <span style="color: #B5CEA8; font-weight: bold;">10</span> -g <span style="color: #B5CEA8; font-weight: bold;">5</span>
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./jim.jpg -s ./dwight.jpg -o ./jd_mixed1.jpg -m <span style="color: #B5CEA8; font-weight: bold;">10</span> -g <span style="color: #B5CEA8; font-weight: bold;">5</span> --gray_one
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./jim.jpg -s ./dwight.jpg -o ./jd_mixed2.jpg -m <span style="color: #B5CEA8; font-weight: bold;">10</span> -g <span style="color: #B5CEA8; font-weight: bold;">5</span> --gray_two
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.2</span> -f ./jim.jpg -s ./dwight.jpg -o ./jd_gray.jpg -m <span style="color: #B5CEA8; font-weight: bold;">10</span> -g <span style="color: #B5CEA8; font-weight: bold;">5</span> --gray_one --gray_two
+</pre>
+</div>
+
+<pre class="example">
+Please select 2 points in each image for alignment.
+</pre>
+
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./dn_gray.jpg" alt="dn_gray.jpg" /><br />
+</p>
+</div>
+
+<p>
+This hybrid image has worked fine. Looking from far away you see Derek and from close by you see an anthropomorphic cat. I used \(σ₁ = 20, σ₂ = 30\)<br />
+</p>
+
+
+<div class="figure">
+<p><img src="./wo_gray.jpg" alt="wo_gray.jpg" /><br />
+</p>
+</div>
+
+<p>
+This is my favorite result. Considering the use of this for two different people can give us interesting output. You can clearly see Owen Wilson close by while seeing a figure that doesn&rsquo;t resemble to Owen from far away (Wes Anderson).<br />
+</p>
+
+
+<div class="figure">
+<p><img src="./td_gray.jpg" alt="td_gray.jpg" /><br />
+</p>
+</div>
+
+<p>
+This result also looks really good, but it has one flaw. From far away, we can see a ferocious tiger. From close by, we see a little puppy. However, since the tiger has strong high frequency signals in its stripes, the blurry tiger, for the given sigma also has a big influence in the high frequency spectrum, meaning you can see the tiger really well close by. This makes the result confusing, since we can see the dog&rsquo;s and the tiger&rsquo;s nose and eyes. Although the tiger looks cute with a sticking out tongue, this output isn&rsquo;t a proper hybrid image. We&rsquo;ll understand this better once we have its Laplacian stack.<br />
+</p>
+
+
+<div class="figure">
+<p><img src="./jd_gray.jpg" alt="jd_gray.jpg" /><br />
+</p>
+</div>
+
+<p>
+This image also had a great result. We can clearly see Dwight with his humongous glasses from close by, while also seeing Jim with his cheeky smile from far away.<br />
+</p>
+</div>
+</div>
+<div id="outline-container-orgc1cbff3" class="outline-4">
+<h4 id="orgc1cbff3"><span class="section-number-4">2.2.1</span> Using Colors!</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+To use colors, we simply apply the filters to all the color channels! These are the results:<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./dn_color.jpg" alt="dn_color.jpg" /><br />
+<img src="./dn_mixed1.jpg" alt="dn_mixed1.jpg" /> <img src="./dn_mixed2.jpg" alt="dn_mixed2.jpg" /><br />
+<img src="./td_color.jpg" alt="td_color.jpg" /><br />
+<img src="./td_mixed1.jpg" alt="td_mixed1.jpg" /> <img src="./td_mixed2.jpg" alt="td_mixed2.jpg" /><br />
+<img src="./wo_color.jpg" alt="wo_color.jpg" /><br />
+<img src="./wo_mixed1.jpg" alt="wo_mixed1.jpg" /> <img src="./wo_mixed2.jpg" alt="wo_mixed2.jpg" /><br />
+<img src="./jd_color.jpg" alt="jd_color.jpg" /><br />
+<img src="./jd_mixed1.jpg" alt="jd_mixed1.jpg" /> <img src="./jd_mixed2.jpg" alt="jd_mixed2.jpg" /><br />
+</p>
+</div>
+
+<p>
+I think that using color in both images is what returned the best outputs, principally on the human over human pictures (Owen + Wes, Dwight + Jim), since they match on color patterns (Skin, eyes, nostrils, &#x2026;).<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org52e30d3" class="outline-4">
+<h4 id="org52e30d3"><span class="section-number-4">2.2.2</span> Fourier Space Analysis</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+My favorite result is the mix between Owen Wilson and Wes Anderson, both using color:<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./wes.jpg" alt="wes.jpg" /> + <img src="./owen.jpg" alt="owen.jpg" /><br />
+</p>
+</div>
+
+<p>
+We, now, compute the 2D Fourier transform for booth images:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #85DDFF;">wes</span> = plt.imread(<span style="color: #DB8E73;">'./wes.jpg'</span>)/<span style="color: #B5CEA8; font-weight: bold;">255</span>.
+<span style="color: #85DDFF;">owen</span> = plt.imread(<span style="color: #DB8E73;">'./owen.jpg'</span>)/<span style="color: #B5CEA8; font-weight: bold;">255</span>
+plt.imsave(<span style="color: #DB8E73;">"fourier_wes.jpg"</span>, np.log(np.<span style="color: #C586C0;">abs</span>(np.fft.fftshift(np.fft.fft2(rgb2gray(wes))))))
+plt.imsave(<span style="color: #DB8E73;">"fourier_owen.jpg"</span>, np.log(np.<span style="color: #C586C0;">abs</span>(np.fft.fftshift(np.fft.fft2(rgb2gray(owen))))))
+</pre>
+</div>
+<div class="org-center">
+<p>
+<img src="./fourier_wes.jpg" alt="fourier_wes.jpg" /> <img src="./fourier_owen.jpg" alt="fourier_owen.jpg" /><br />
+</p>
+
+<p>
+Wes (Left), Owen (Right)<br />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #85DDFF;">gauss</span> = gaussian_kernel(<span style="color: #B5CEA8; font-weight: bold;">25</span>, <span style="color: #B5CEA8; font-weight: bold;">20</span>)
+<span style="color: #85DDFF;">blurry_wes</span> = convolve2d(rgb2gray(wes), gauss)
+<span style="color: #85DDFF;">sharp_owen</span> = sharpen(owen, <span style="color: #B5CEA8; font-weight: bold;">25</span>, <span style="color: #B5CEA8; font-weight: bold;">20</span>)
+
+plt.imsave(<span style="color: #DB8E73;">"fourier_wes_filtered.jpg"</span>, np.log(np.<span style="color: #C586C0;">abs</span>(np.fft.fftshift(np.fft.fft2(rgb2gray(blurry_wes))))))
+plt.imsave(<span style="color: #DB8E73;">"fourier_owen_filtered.jpg"</span>, np.log(np.<span style="color: #C586C0;">abs</span>(np.fft.fftshift(np.fft.fft2(rgb2gray(sharp_owen))))))
+plt.imsave(<span style="color: #DB8E73;">"fourier_wo.jpg"</span>, np.log(np.<span style="color: #C586C0;">abs</span>(np.fft.fftshift(np.fft.fft2(rgb2gray(wes_owen_color))))))
+</pre>
+</div>
+<div class="org-center">
+<p>
+<img src="./fourier_wes_filtered.jpg" alt="fourier_wes_filtered.jpg" /> <img src="./fourier_owen_filtered.jpg" alt="fourier_owen_filtered.jpg" /><br />
+Wes after Gaussian filter (Left), Owen after Laplacian on Gaussian filter (Right)<br />
+<img src="./fourier_wo.jpg" alt="fourier_wo.jpg" /><br />
+Hybrid image product<br />
+</p>
+</div>
+
+<p>
+We can see, from the Fourier space filtered images and their sum, that, once they are added to each other, the low frequency image has its gaps filled by the other, and the high frequency has its low frequency spectrum intensified by the other.<br />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb54724a" class="outline-3">
+<h3 id="orgb54724a"><span class="section-number-3">2.3</span> Gaussian and Laplacian Stacks</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Once we can use the Gaussian filter, we can create both stacks as it was taught in lecture, but adapt them so they will work on the last question, removing the actual image from the Gaussian stack. The Gaussian stack going from the first filtered image to level 6 filtered image and the Laplacian stack going from the Image - first Gaussian filtered image to the difference on the bottom of the Gaussian stack images, finalizing it with what was left of low frequencies on the image. The output image is on the format (Top → Bottom).<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python main.py <span style="color: #B5CEA8; font-weight: bold;">2.3</span> -f wo_color.jpg -o wo
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.3</span> -f lincoln.jpg -o lincoln
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.3</span> -f td_color.jpg -o td
+</pre>
+</div>
+
+<div class="org-center">
+<div class="stack">
+<p>
+<img src="./wo_gaussianStack.jpg" alt="wo_gaussianStack.jpg" /><br />
+<img src="./wo_laplacianStack.jpg" alt="wo_laplacianStack.jpg" /><br />
+</p>
+
+</div>
+
+<div class="figure">
+<p><img src="./wo_color.jpg" alt="wo_color.jpg" /><br />
+</p>
+</div>
+
+<p>
+We can see how Owen is shown very clearly in the all through the Laplacian stack as Wes is shown all through the Gaussian one.<br />
+</p>
+
+<div class="stack">
+<p>
+<img src="./lincoln_gaussianStack.jpg" alt="lincoln_gaussianStack.jpg" /><br />
+<img src="./lincoln_laplacianStack.jpg" alt="lincoln_laplacianStack.jpg" /><br />
+</p>
+
+</div>
+
+<div class="figure">
+<p><img src="./lincoln.jpg" alt="lincoln.jpg" /><br />
+</p>
+</div>
+
+<p>
+Here, it is clear that Lincoln is shown all through the Gaussian stack and the woman is very clear on the top of the Laplacian stack.<br />
+</p>
+
+<div class="stack">
+<p>
+<img src="./td_gaussianStack.jpg" alt="td_gaussianStack.jpg" /><br />
+<img src="./td_laplacianStack.jpg" alt="td_laplacianStack.jpg" /><br />
+</p>
+
+</div>
+
+<div class="figure">
+<p><img src="./td_color.jpg" alt="td_color.jpg" /><br />
+</p>
+</div>
+
+
+<p>
+Now, the fault in this hybrid image is understandable as the tiger is what is predominant in all the levels of both stacks.<br />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2148535" class="outline-3">
+<h3 id="org2148535"><span class="section-number-3">2.4</span> Multiresolution Blending</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+Since our stacks are already adapted for this problem, we only have to use the algorithm given by the paper on the spec. Given 2 images and a mask, we join the two images in all Laplacian levels using the Low Pass filtered mask. To create the irregular masks used for the Pisa tower and Tom Hank&rsquo;s eye, I used <b>GIMP</b> (GNU Image Manipulation Program). I got the following results:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python main.py <span style="color: #B5CEA8; font-weight: bold;">2.4</span> -f ./apple.jpeg -s ./orange.jpeg -t ./apporange_mask.jpg -o ./apporange_gray.jpg --gray_one
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.3</span> -f apporange_gray.jpg -o apporange_gray
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.3</span> -f apporange_mask.jpg -o apporange_mask
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.4</span> -f ./pisa_aligned.jpg -s ./sather.jpg  -t ./pisa_aligned_mask.jpg -o ./pisather_gray.jpg --gray_one -m <span style="color: #B5CEA8; font-weight: bold;">50</span>
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.3</span> -f pisather_gray.jpg -o pisather_gray
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.3</span> -f pisa_aligned_mask.jpg -o pisather_mask
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.4</span> -f ./hanks_eye_aligned.jpg -s ./hanks.jpg -t ./hanks_eye_mask.jpg -o ./weird_hanks_gray.jpg --gray_one -m <span style="color: #B5CEA8; font-weight: bold;">20</span>
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.3</span> -f weird_hanks_gray.jpg -o weird_hanks_gray
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.3</span> -f hanks_eye_mask.jpg -o weird_hanks_mask
+</pre>
+</div>
+
+<div class="org-center">
+<p>
+<img src="./apple.jpeg" alt="apple.jpeg" /> <img src="./orange.jpeg" alt="orange.jpeg" /><br />
+<img src="./apporange_gray.jpg" alt="apporange_gray.jpg" /> <img src="./apporange_mask.jpg" alt="apporange_mask.jpg" /><br />
+</p>
+<div class="stack">
+<p>
+<img src="./apporange_gray_gaussianStack.jpg" alt="apporange_gray_gaussianStack.jpg" /><br />
+<img src="./apporange_gray_laplacianStack.jpg" alt="apporange_gray_laplacianStack.jpg" /><br />
+<img src="./apporange_mask_gaussianStack.jpg" alt="apporange_mask_gaussianStack.jpg" /><br />
+</p>
+
+</div>
+<p>
+<img src="./pisa.jpg" alt="pisa.jpg" /> <img src="./sather.jpg" alt="sather.jpg" /><br />
+<img src="./pisather_gray.jpg" alt="pisather_gray.jpg" /> <img src="./pisa_aligned_mask.jpg" alt="pisa_aligned_mask.jpg" /><br />
+</p>
+<div class="stack">
+<p>
+<img src="./pisather_gray_gaussianStack.jpg" alt="pisather_gray_gaussianStack.jpg" /><br />
+<img src="./pisather_gray_laplacianStack.jpg" alt="pisather_gray_laplacianStack.jpg" /><br />
+<img src="./pisather_mask_gaussianStack.jpg" alt="pisather_mask_gaussianStack.jpg" /><br />
+</p>
+
+</div>
+<p>
+<img src="./hank_eye.jpg" alt="hank_eye.jpg" /> <img src="./hanks.jpg" alt="hanks.jpg" /><br />
+<img src="./weird_hanks_gray.jpg" alt="weird_hanks_gray.jpg" /> <img src="./hanks_eye_mask.jpg" alt="hanks_eye_mask.jpg" /><br />
+</p>
+<div class="stack">
+<p>
+<img src="./weird_hanks_gray_gaussianStack.jpg" alt="weird_hanks_gray_gaussianStack.jpg" /><br />
+<img src="./weird_hanks_gray_laplacianStack.jpg" alt="weird_hanks_gray_laplacianStack.jpg" /><br />
+<img src="./weird_hanks_mask_gaussianStack.jpg" alt="weird_hanks_mask_gaussianStack.jpg" /><br />
+</p>
+
+</div>
+</div>
+
+<p>
+We can see how smooth the images are joined once they are merged in every level! This makes so many fun things possible!<br />
+</p>
+</div>
+
+<div id="outline-container-org92065c5" class="outline-4">
+<h4 id="org92065c5"><span class="section-number-4">2.4.1</span> Using Color!</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<p>
+Using color, the results are even better! The sather tower is now the leaning tower of Pisa and Tom Hanks is a freak!<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python main.py <span style="color: #B5CEA8; font-weight: bold;">2.4</span> -f ./apple.jpeg -s ./orange.jpeg -t ./apporange_mask.jpg -o ./apporange.jpg
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.3</span> -f apporange.jpg -o apporange
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.4</span> -f ./pisa_aligned.jpg -s ./sather.jpg  -t ./pisa_aligned_mask.jpg -o ./pisather.jpg -m <span style="color: #B5CEA8; font-weight: bold;">50</span>
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.3</span> -f pisather.jpg -o pisather
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.4</span> -f ./hanks_eye_aligned.jpg -s ./hanks.jpg -t ./hanks_eye_mask.jpg -o ./weird_hanks.jpg -m <span style="color: #B5CEA8; font-weight: bold;">20</span>
+python main.py <span style="color: #B5CEA8; font-weight: bold;">2.3</span> -f weird_hanks.jpg -o weird_hanks
+</pre>
+</div>
+
+<div class="org-center">
+<p>
+<img src="./apporange.jpg" alt="apporange.jpg" /> <img src="./apporange_mask.jpg" alt="apporange_mask.jpg" /><br />
+</p>
+<div class="stack">
+<p>
+<img src="./apporange_gaussianStack.jpg" alt="apporange_gaussianStack.jpg" /><br />
+<img src="./apporange_laplacianStack.jpg" alt="apporange_laplacianStack.jpg" /><br />
+<img src="./apporange_mask_gaussianStack.jpg" alt="apporange_mask_gaussianStack.jpg" /><br />
+</p>
+
+</div>
+<p>
+<img src="./pisather.jpg" alt="pisather.jpg" /> <img src="./pisa_aligned_mask.jpg" alt="pisa_aligned_mask.jpg" /><br />
+</p>
+<div class="stack">
+<p>
+<img src="./pisather_gaussianStack.jpg" alt="pisather_gaussianStack.jpg" /><br />
+<img src="./pisather_laplacianStack.jpg" alt="pisather_laplacianStack.jpg" /><br />
+<img src="./pisather_mask_gaussianStack.jpg" alt="pisather_mask_gaussianStack.jpg" /><br />
+</p>
+
+</div>
+<p>
+<img src="./weird_hanks.jpg" alt="weird_hanks.jpg" /> <img src="./hanks_eye_mask.jpg" alt="hanks_eye_mask.jpg" /><br />
+</p>
+<div class="stack">
+<p>
+<img src="./weird_hanks_gaussianStack.jpg" alt="weird_hanks_gaussianStack.jpg" /><br />
+<img src="./weird_hanks_laplacianStack.jpg" alt="weird_hanks_laplacianStack.jpg" /><br />
+<img src="./weird_hanks_mask_gaussianStack.jpg" alt="weird_hanks_mask_gaussianStack.jpg" /><br />
+</p>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgefc3b63" class="outline-2">
+<h2 id="orgefc3b63"><span class="section-number-2">3</span> Interesting Project Aspects</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+In my opinion, this assignment had so many interesting insights to image representation. Using our perception of images frequencies to manipulate them and make them look as something unnatural (Hybrid images and Multiresolution blending) is what caught my full attention to it and made me reach out for the best results possible. Also, the ease with which we can add on operations to a preprocessed kernel is really cool in terms of efficiency and might be a useful tool inn future research.<br />
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: <b>Guilherme Gomes Haetinger</b> <br /><br /> University of California, Berkeley <br /> CS194-26: Image Manipulation and Computational Photography</p>
+<p class="date">Created: 2020-02-18 Tue 13:23</p>
+</div>
+</body>
+</html>
