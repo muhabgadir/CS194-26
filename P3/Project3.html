@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-03-03 Tue 10:40 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Face Morphing</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="*Guilherme Gomes Haetinger* Guilherme Gomes Haetinger@@html:&lt;br /&gt;@@@@html:&lt;br /&gt;@@ University of California, Berkeley @@html:&lt;br /&gt;@@ CS194-26: Image Manipulation and Computational Photography" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style>pre.src{background:#343131;color:white;} </style>
+<style>img { width: 45%; } .lineup img { width: 30%; } .final img {width: 70%; } </style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Face Morphing</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orga81d893">1. Introduction</a></li>
+<li><a href="#org965b418">2. Mid-way Face</a></li>
+<li><a href="#org173da9d">3. Morphing Sequence</a></li>
+<li><a href="#orge735346">4. Population Mean Face</a></li>
+<li><a href="#orgd75219e">5. Caricature</a></li>
+<li><a href="#org8aa4027">6. Bells and Whistles</a>
+<ul>
+<li><a href="#orgb5599f7">6.1. Changing genders</a></li>
+<li><a href="#org9e7b093">6.2. Creating a Facial Feature space!</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga81d893" class="outline-2">
+<h2 id="orga81d893"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Face morphing is a very aesthetic and fun tool for general purposes. It was used on Michael Jackson&rsquo;s <i>&ldquo;Black and White&rdquo;</i> music video clip as well as in various fun <i>Instagram Filters</i>. The idea for this algorithm is to draw points that highlight our features and create subdivisions relative to those. Once we have that, we can start morphing two faces, since we have correspondences in both surfaces. The following sections will explain it a little bit better.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org965b418" class="outline-2">
+<h2 id="org965b418"><span class="section-number-2">2</span> Mid-way Face</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+For the first two sections, I decided to use an image of myself and Chris Hemsworth. The images are the following:<br />
+</p>
+<div class="org-center">
+<p>
+<br />
+</p>
+
+<p>
+<img src="./gui.jpg" alt="gui.jpg" /> <img src="./chris.jpg" alt="chris.jpg" /><br />
+</p>
+</div>
+
+<p>
+Once we have these images loaded, I drew a few points on facial features such as the nose, mouth, eyes and ears. Using <i>Delaunay Triangulation</i>, I specify the triangle surfaces for my image and apply to both of them. We end with this configuration:<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./gui_triangles.jpg" alt="gui_triangles.jpg" /> <img src="./chris_triangles.jpg" alt="chris_triangles.jpg" /><br />
+</p>
+</div>
+
+<p>
+With these triangles set, we can create the mean configuration between both images and get the mean triangles. Going through each triangle in both images and Transforming each coordinate into a coordinate inside the mean triangle, we can get a fine result. For efficiency purposes, we don&rsquo;t use a <i>for</i> loop in the transform. Instead of that, we get every coordinate from the specific triangle inside a matrix and apply an Affine transform matrix. The results follow.<br />
+</p>
+
+<div class="org-center">
+<p>
+Each image with only spatial blending.<br />
+<img src="./blend_gui.jpg" alt="blend_gui.jpg" /> <img src="./blend_chris.jpg" alt="blend_chris.jpg" /><br />
+Final Mid-way face with color blending.<br />
+<img src="./blend.jpg" alt="blend.jpg" /><br />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org173da9d" class="outline-2">
+<h2 id="org173da9d"><span class="section-number-2">3</span> Morphing Sequence</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Having the Mid-way face process clarified, creating a morphing sequence is pretty straightforward. Setting a number α as interpolation handler, we can simply weight out the triangle averaging and the color blending. Thus, my morphing sequence goes as follows:<br />
+</p>
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./animation.gif" alt="animation.gif" /><br />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge735346" class="outline-2">
+<h2 id="orge735346"><span class="section-number-2">4</span> Population Mean Face</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Finally, I downloaded the <a href="http://www2.imm.dtu.dk/~aam/datasets/datasets.html">Image database</a> from the <b>Technical University of Denmark - DTU</b> to compute a population&rsquo;s mean face. To do that, we calculate the average triangles and adjust every picture to it, finalizing by blending all the colors together. This population consists of 40 people.<br />
+</p>
+
+<div class="org-center">
+<div class="lineup">
+<p>
+<img src="./pop_ex.jpg" alt="pop_ex.jpg" /> <img src="./pop_ex_tri.jpg" alt="pop_ex_tri.jpg" /> <img src="./pop_shape_ex.jpg" alt="pop_shape_ex.jpg" /><br />
+</p>
+
+</div>
+<p>
+(Original image, Delaunay triangulation, image morphed to mean shape, respectively)<br />
+<img src="./pop_ex_2.jpg" alt="pop_ex_2.jpg" /> <img src="./pop_shape_ex_2.jpg" alt="pop_shape_ex_2.jpg" /><br />
+<img src="./pop_ex_3.jpg" alt="pop_ex_3.jpg" /> <img src="./pop_shape_ex_3.jpg" alt="pop_shape_ex_3.jpg" /><br />
+(Original image, image morphed to mean shape, respectively)<br />
+<img src="./pop.jpg" alt="pop.jpg" /><br />
+(Mean face of population)<br />
+</p>
+</div>
+
+<p>
+Now, tweaking the images so they are the same size and ratio as my image, we can get the following transforms:<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./blend_gui_pop.jpg" alt="blend_gui_pop.jpg" /> <img src="./blend_gui_pop_shape.jpg" alt="blend_gui_pop_shape.jpg" /><br />
+<img src="./blend_gui_pop_color.jpg" alt="blend_gui_pop_color.jpg" /> <img src="./blend_gui_pop.gif" alt="blend_gui_pop.gif" /><br />
+(mid-way faces: normal(top left), only shape (top right), only color (bottom left))<br />
+<img src="./blend_pop_gui.jpg" alt="blend_pop_gui.jpg" /><br />
+mean face with my geometry<br />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd75219e" class="outline-2">
+<h2 id="orgd75219e"><span class="section-number-2">5</span> Caricature</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Now that we have the averages calculated, let&rsquo;s find out what are my unique features using that as reference. By extrapolating the morphing algorithm, we get this result:<br />
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./blend_caric_gui_pop.jpg" alt="blend_caric_gui_pop.jpg" /><br />
+</p>
+</div>
+</div>
+
+<p>
+Considering that my face isn&rsquo;t really aligned to the mean pictures and I used a Delaunay triangulation instead of the given triangulation from the database, we get that triangle artifact due to triangles being on top of each other. I added a quick fix by removing all the signals greater than 1 and replacing them with the original image&rsquo;s signal.<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./gui_pop_caric_fix.jpg" alt="gui_pop_caric_fix.jpg" /> <img src="./gui_pop_caric_inv_fix.jpg" alt="gui_pop_caric_inv_fix.jpg" /><br />
+α = 2 (left), α = -1 (right)<br />
+</p>
+</div>
+
+
+<p>
+So to demonstrate this in a better way, we can see that in one of the samples we have from the population:<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./pop_ex.jpg" alt="pop_ex.jpg" /> <img src="./pop_ex_caric.jpg" alt="pop_ex_caric.jpg" /> <img src="./pop_ex_caric_2.jpg" alt="pop_ex_caric_2.jpg" /><br />
+Since the color is a bit off, we can extrapolate the shape only. (α = 0, 1.5, 2, respectively)<br />
+<img src="./pop_ex.jpg" alt="pop_ex.jpg" /> <img src="./pop_ex_caric_shape.jpg" alt="pop_ex_caric_shape.jpg" /> <img src="./pop_ex_caric_shape_2.jpg" alt="pop_ex_caric_shape_2.jpg" /><br />
+(α = 0, 1.5, 2, respectively)<br />
+</p>
+</div>
+
+<p>
+Of course it comes a point in which even the faces in the mean can have the triangles stacked by extrapolation, which is what happens in the last ones.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8aa4027" class="outline-2">
+<h2 id="org8aa4027"><span class="section-number-2">6</span> Bells and Whistles</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-orgb5599f7" class="outline-3">
+<h3 id="orgb5599f7"><span class="section-number-3">6.1</span> Changing genders</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+The population dataset provides us with female and male samples, so it&rsquo;s easy to extract the gender means. Once we have those, we can change my facial features to look more like the man&rsquo;s mean or more feminine. The results follow.<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./pop_f.jpg" alt="pop_f.jpg" /> <img src="./pop_m.jpg" alt="pop_m.jpg" /><br />
+female mean (left), male mean (right)<br />
+<img src="./blend_gui_m.jpg" alt="blend_gui_m.jpg" /> <img src="./blend_gui_m_shape.jpg" alt="blend_gui_m_shape.jpg" /><br />
+<img src="./blend_gui_m_color.jpg" alt="blend_gui_m_color.jpg" /> <img src="./blend_gui_m.gif" alt="blend_gui_m.gif" /><br />
+Morphing with male mean. (mid-way faces: normal(top left), only shape (top right), only color (bottom left))<br />
+<img src="./blend_gui_pop_f.jpg" alt="blend_gui_pop_f.jpg" /> <img src="./blend_gui_f_shape.jpg" alt="blend_gui_f_shape.jpg" /><br />
+<img src="./blend_gui_f_color.jpg" alt="blend_gui_f_color.jpg" /> <img src="./blend_gui_f.gif" alt="blend_gui_f.gif" /><br />
+Morphing with female mean. (mid-way faces: normal(top left), only shape (top right), only color (bottom left))<br />
+</p>
+</div>
+
+<p>
+Tweaking the α interpolation coefficient a little bit, we have a more feminine blended version of me:<br />
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./blend_gui_pop_f_2.jpg" alt="blend_gui_pop_f_2.jpg" /><br />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9e7b093" class="outline-3">
+<h3 id="org9e7b093"><span class="section-number-3">6.2</span> Creating a Facial Feature space!</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+What I also thought was interesting was to morph my image to a already morphed image. This would give me a face space to work with, meaning I could interpolate myself with the interval in between the female and male means.<br />
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./space_ex.jpg" alt="space_ex.jpg" /><br />
+</p>
+</div>
+</div>
+
+<p>
+In my program, I set α₂ to be <code>0.5</code>, but that&rsquo;s arbitrary. This was the result:<br />
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./space.gif" alt="space.gif" /><br />
+</p>
+</div>
+</div>
+
+<p>
+The transition is noticeable but kinda weak. By extrapolating it, however, we get a much better result, even better than just morphing with the female mean, we are removing the male features and the other way around as well! Notice how my freckles are highlighted!<br />
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./space_caric.gif" alt="space_caric.gif" /><br />
+</p>
+</div>
+</div>
+
+<p>
+Another cool result was to move around completely different images such as the population samples I displayed in previous sections.<br />
+</p>
+
+<div class="org-center">
+<div class="lineup">
+<p>
+<img src="./pop_ex.jpg" alt="pop_ex.jpg" /> <img src="./pop_ex_2.jpg" alt="pop_ex_2.jpg" /> <img src="./pop_ex_3.jpg" alt="pop_ex_3.jpg" /><br />
+</p>
+
+</div>
+<div class="final">
+
+<div class="figure">
+<p><img src="./pop_ex_space.gif" alt="pop_ex_space.gif" /><br />
+</p>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: <b>Guilherme Gomes Haetinger</b> <br /><br /> University of California, Berkeley <br /> CS194-26: Image Manipulation and Computational Photography</p>
+<p class="date">Created: 2020-03-03 Tue 10:40</p>
+</div>
+</body>
+</html>

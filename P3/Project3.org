@@ -1,0 +1,140 @@
+#+TITLE: Face Morphing
+#+author: *Guilherme Gomes Haetinger* @@html:<br />@@@@html:<br />@@ University of California, Berkeley @@html:<br />@@ CS194-26: Image Manipulation and Computational Photography
+#+options: \n:t num:t
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup
+#+HTML_HEAD: <style> #content{max-width:1800px;}</style>
+#+HTML_HEAD: <style>pre.src{background:#343131;color:white;} </style>
+#+HTML_HEAD: <style>img { width: 45%; } .lineup img { width: 30%; } .final img {width: 70%; } </style>
+
+* Introduction
+Face morphing is a very aesthetic and fun tool for general purposes. It was used on Michael Jackson's /"Black and White"/ music video clip as well as in various fun /Instagram Filters/. The idea for this algorithm is to draw points that highlight our features and create subdivisions relative to those. Once we have that, we can start morphing two faces, since we have correspondences in both surfaces. The following sections will explain it a little bit better.
+
+* Mid-way Face
+For the first two sections, I decided to use an image of myself and Chris Hemsworth. The images are the following:
+#+BEGIN_CENTER
+
+[[./gui.jpg]] [[./chris.jpg]]
+#+END_CENTER
+
+Once we have these images loaded, I drew a few points on facial features such as the nose, mouth, eyes and ears. Using /Delaunay Triangulation/, I specify the triangle surfaces for my image and apply to both of them. We end with this configuration:
+
+#+BEGIN_CENTER
+[[./gui_triangles.jpg]] [[./chris_triangles.jpg]]
+#+END_CENTER
+
+With these triangles set, we can create the mean configuration between both images and get the mean triangles. Going through each triangle in both images and Transforming each coordinate into a coordinate inside the mean triangle, we can get a fine result. For efficiency purposes, we don't use a /for/ loop in the transform. Instead of that, we get every coordinate from the specific triangle inside a matrix and apply an Affine transform matrix. The results follow.
+
+#+BEGIN_CENTER
+Each image with only spatial blending.
+[[./blend_gui.jpg]] [[./blend_chris.jpg]]
+Final Mid-way face with color blending.
+[[./blend.jpg]]
+#+END_CENTER
+* Morphing Sequence
+Having the Mid-way face process clarified, creating a morphing sequence is pretty straightforward. Setting a number α as interpolation handler, we can simply weight out the triangle averaging and the color blending. Thus, my morphing sequence goes as follows:
+#+BEGIN_CENTER
+[[./animation.gif]]
+#+END_CENTER
+
+* Population Mean Face
+Finally, I downloaded the [[http://www2.imm.dtu.dk/~aam/datasets/datasets.html][Image database]] from the *Technical University of Denmark - DTU* to compute a population's mean face. To do that, we calculate the average triangles and adjust every picture to it, finalizing by blending all the colors together. This population consists of 40 people.
+
+#+BEGIN_CENTER
+#+BEGIN_lineup
+[[./pop_ex.jpg]] [[./pop_ex_tri.jpg]] [[./pop_shape_ex.jpg]]
+#+END_lineup
+(Original image, Delaunay triangulation, image morphed to mean shape, respectively)
+[[./pop_ex_2.jpg]] [[./pop_shape_ex_2.jpg]]
+[[./pop_ex_3.jpg]] [[./pop_shape_ex_3.jpg]]
+(Original image, image morphed to mean shape, respectively)
+[[./pop.jpg]]
+(Mean face of population)
+#+END_CENTER
+
+Now, tweaking the images so they are the same size and ratio as my image, we can get the following transforms:
+
+#+BEGIN_CENTER
+[[./blend_gui_pop.jpg]] [[./blend_gui_pop_shape.jpg]]
+[[./blend_gui_pop_color.jpg]] [[./blend_gui_pop.gif]]
+(mid-way faces: normal(top left), only shape (top right), only color (bottom left))
+[[./blend_pop_gui.jpg]]
+mean face with my geometry
+#+END_CENTER
+
+* Caricature
+Now that we have the averages calculated, let's find out what are my unique features using that as reference. By extrapolating the morphing algorithm, we get this result:
+
+#+BEGIN_CENTER
+[[./blend_caric_gui_pop.jpg]]
+#+END_CENTER
+
+Considering that my face isn't really aligned to the mean pictures and I used a Delaunay triangulation instead of the given triangulation from the database, we get that triangle artifact due to triangles being on top of each other. I added a quick fix by removing all the signals greater than 1 and replacing them with the original image's signal.
+
+#+BEGIN_CENTER
+[[./gui_pop_caric_fix.jpg]] [[./gui_pop_caric_inv_fix.jpg]]
+α = 2 (left), α = -1 (right)
+#+END_CENTER
+
+
+So to demonstrate this in a better way, we can see that in one of the samples we have from the population:
+
+#+BEGIN_CENTER
+[[./pop_ex.jpg]] [[./pop_ex_caric.jpg]] [[./pop_ex_caric_2.jpg]]
+Since the color is a bit off, we can extrapolate the shape only. (α = 0, 1.5, 2, respectively)
+[[./pop_ex.jpg]] [[./pop_ex_caric_shape.jpg]] [[./pop_ex_caric_shape_2.jpg]]
+(α = 0, 1.5, 2, respectively)
+#+END_CENTER
+
+Of course it comes a point in which even the faces in the mean can have the triangles stacked by extrapolation, which is what happens in the last ones.
+
+* Bells and Whistles
+** Changing genders
+The population dataset provides us with female and male samples, so it's easy to extract the gender means. Once we have those, we can change my facial features to look more like the man's mean or more feminine. The results follow.
+
+#+BEGIN_CENTER
+[[./pop_f.jpg]] [[./pop_m.jpg]]
+female mean (left), male mean (right)
+[[./blend_gui_m.jpg]] [[./blend_gui_m_shape.jpg]]
+[[./blend_gui_m_color.jpg]] [[./blend_gui_m.gif]]
+Morphing with male mean. (mid-way faces: normal(top left), only shape (top right), only color (bottom left))
+[[./blend_gui_pop_f.jpg]] [[./blend_gui_f_shape.jpg]]
+[[./blend_gui_f_color.jpg]] [[./blend_gui_f.gif]]
+Morphing with female mean. (mid-way faces: normal(top left), only shape (top right), only color (bottom left))
+#+END_CENTER
+
+Tweaking the α interpolation coefficient a little bit, we have a more feminine blended version of me:
+
+#+BEGIN_CENTER
+[[./blend_gui_pop_f_2.jpg]]
+#+END_CENTER
+
+** Creating a Facial Feature space!
+
+What I also thought was interesting was to morph my image to a already morphed image. This would give me a face space to work with, meaning I could interpolate myself with the interval in between the female and male means.
+
+#+BEGIN_CENTER
+[[./space_ex.jpg]]
+#+END_CENTER
+
+In my program, I set α₂ to be =0.5=, but that's arbitrary. This was the result:
+
+#+BEGIN_CENTER
+[[./space.gif]]
+#+END_CENTER
+
+The transition is noticeable but kinda weak. By extrapolating it, however, we get a much better result, even better than just morphing with the female mean, we are removing the male features and the other way around as well! Notice how my freckles are highlighted!
+
+#+BEGIN_CENTER
+[[./space_caric.gif]]
+#+END_CENTER
+
+Another cool result was to move around completely different images such as the population samples I displayed in previous sections.
+
+#+BEGIN_CENTER
+#+BEGIN_lineup
+[[./pop_ex.jpg]] [[./pop_ex_2.jpg]] [[./pop_ex_3.jpg]]
+#+END_lineup
+#+BEGIN_final
+[[./pop_ex_space.gif]]
+#+END_final
+#+END_CENTER

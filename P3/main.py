@@ -17,20 +17,33 @@ import os
 import time
 import asf_reader
 
-N = 40
+# Number of points requested
+N = 58
 
 ## Parameter Svaing/Loading
 def define_points(image_name):
     image = io.imread(image_name)
     plt.imshow(image)
     points = plt.ginput(N, 0)
+    points.append((0, 0))
+    points.append((0, image.shape[1]))
+    points.append((image.shape[0], 0))
+    points.append((image.shape[0], image.shape[1]))
     plt.close()
     pickle_name = re.split("\.", image_name)[0] + ".p"
     pickle.dump(points, open(pickle_name, "wb"))
 
 def load_points(image_name):
+    img = io.imread(image_name)
+    shape = img.shape
     pickle_name = re.split("\.", image_name)[0] + ".p"
-    return np.array(pickle.load(open(pickle_name, "rb")))
+    points = pickle.load(open(pickle_name, "rb"))
+    points.append((0, 0))
+    points.append((0, shape[0]))
+    points.append((shape[1], 0))
+    points.append((shape[1], shape[0]))
+    return np.array(points)
+
 
 def points_exist(image_name):
     return path.exists(re.split("\.", image_name)[0]+".p")
@@ -78,6 +91,7 @@ def avg_population_points(point_sets):
         avg = np.add(avg, point_sets[i])
 
     return avg/len(point_sets)
+
 
 ## Compute Affine matrix
 def affine(triangle, target):
@@ -137,19 +151,20 @@ def create_pair_blend(tri_list, images, points, alpha):
         final_tri += (1-alpha) * apply_masked_affine(target_mask, images[1],
                                                      src_tri, target_tri) / 255
         final += final_tri
-    return final
+    final[final>1] = 1
+    return final, avg
 
 
 ## Save middle face blennded image
-def compute_middle_face(imageA_name, imageB_name, dest_img):
+def compute_middle_face(imageA_name, imageB_name, dest_img, alpha):
     pointsA = load_points(imageA_name)
     pointsB = load_points(imageB_name)
     imgA = io.imread(imageA_name)
     imgB = io.imread(imageB_name)
     delu = Delaunay(pointsA)
     triangles = delu.simplices
-    final = create_pair_blend(triangles, [imgA, imgB],
-                              [pointsA, pointsB], 0.5)
+    final, _ = create_pair_blend(triangles, [imgA, imgB],
+                              [pointsA, pointsB], alpha)
     io.imsave(dest_img, final)
 
 
@@ -168,7 +183,9 @@ def compute_morph_video(imageA_name, imageB_name, dest_video, depth):
     fig.add_axes(ax)
     for i in range(0, depth+1):
         alpha = float((depth - i)/depth)
-        paint = create_pair_blend(triangles, [imgA, imgB], [pointsA, pointsB], alpha)
+        strt = time.time()
+        paint, _ = create_pair_blend(triangles, [imgA, imgB], [pointsA, pointsB], alpha)
+        print("Frame morph time:", time.time() - strt)
         im = plt.imshow(paint)
         mov.append([im])
     mov2 = copy.copy(mov)
@@ -178,7 +195,7 @@ def compute_morph_video(imageA_name, imageB_name, dest_video, depth):
     fig.set_size_inches(int(imgA.shape[1]/50), int(imgA.shape[0]/50), 10)
     ani = animation.ArtistAnimation(fig, mov, interval=1000, blit=True, repeat_delay=0)
     Writer = animation.writers['ffmpeg']
-    writer = Writer(fps=2, metadata=dict(artist='Me'), bitrate=1800)
+    writer = Writer(fps=10, metadata=dict(artist='Me'), bitrate=1800)
     ani.save(dest_video, writer=writer)
 
 
@@ -189,7 +206,11 @@ def get_points_asf(file_name):
     for line in lines:
         data = line.split(" \t")
         points.append((float(data[2]), float(data[3])))
-    return points
+    points.append((0., 0.))
+    points.append((1., 0.))
+    points.append((0., 1.))
+    points.append((1., 1.))
+    return np.array(points)
 
 def read_db(path, regex_img):
     file_ls = []
@@ -221,18 +242,54 @@ def create_population_blend(tri_list, images, point_sets):
             final_tri = (1/len(images)) * apply_masked_affine(target_mask, images[i],
                                                               src_tri, target_tri) / 255
             final += final_tri
-        # io.imshow(final)
-        # io.show()
-    return final
+    final[final > 1] = 1
+    return final, avg
 
 
 ## Save population mean face
 def compute_pop_mean_face(path, regex, dest_img):
     images, points = read_db(path, regex)
-    delu = Delaunay(points[1])
+    delu = Delaunay(points[0])
     triangles = delu.simplices
-    final = create_population_blend(triangles, images, points)
+    final, avg_points = create_population_blend(triangles, images, points)
     io.imsave(dest_img, final)
+    pickle_name = re.split("\.", dest_img)[0] + ".p"
+    pickle.dump(list(avg_points), open(pickle_name, "wb"))
+
+
+## Compute facial space video
+def compute_space_morph(imageA_name, imageB_name, imageC_name, depth, alpha, dest_video):
+    pointsA = load_points(imageA_name)
+    pointsB = load_points(imageB_name)
+    pointsC = load_points(imageC_name)
+    imgA = io.imread(imageA_name)
+    imgB = io.imread(imageB_name)
+    imgC = io.imread(imageC_name)
+    delu = Delaunay(pointsA)
+    triangles = delu.simplices
+    mov = []
+    fig = plt.figure(frameon=False)
+    ax = plt.Axes(fig, [0., 0., 1., 1.])
+    ax.set_axis_off()
+    fig.add_axes(ax)
+    for i in range(0, depth+1):
+        space_alpha = float((depth - i)/depth)
+        mid, avg = create_pair_blend(triangles, [imgB, imgC],
+                                     [pointsB, pointsC], space_alpha)
+        final,_ = create_pair_blend(triangles, [imgA, mid*255],
+                                    [pointsA, avg], alpha)
+        im = plt.imshow(final)
+        mov.append([im])
+    mov2 = copy.copy(mov)
+    mov2.reverse()
+    mov += mov2
+    ratio = imgA.shape[1] / imgA.shape[0]
+    fig.set_size_inches(int(imgA.shape[1]/50), int(imgA.shape[0]/50), 10)
+    ani = animation.ArtistAnimation(fig, mov, interval=1000, blit=True, repeat_delay=0)
+    Writer = animation.writers['ffmpeg']
+    writer = Writer(fps=10, metadata=dict(artist='Me'), bitrate=1800)
+    ani.save(dest_video, writer=writer)
+
 
 intro = "Project 3 for CS 194-26: Face Morphing\n"
 parser = argparse.ArgumentParser(intro)
@@ -243,14 +300,20 @@ parser.add_argument('imgA',
                     help="The first image or a Population directory path")
 
 parser.add_argument('imgB',
-                    metavar='Image B',
+                    metavar='ImageB',
                     type=str,
                     help="The second image for morphing or the Regex for population images.")
+
+parser.add_argument('-C',
+                    '--imageC',
+                    dest="imgC",
+                    type=str,
+                    help="The third image for facial space interpolation.")
 
 parser.add_argument('method',
                     metavar='Method',
                     type=str,
-                    help="Method to use (Middle, Video, Population).")
+                    help="Method to use (Middle, Video, Population, Space).")
 
 parser.add_argument('out',
                     metavar='Output',
@@ -264,6 +327,13 @@ parser.add_argument('-d',
                     default=10,
                     help='Sets the number of interpolation layers for the movie.')
 
+parser.add_argument('-a',
+                    '--alpha',
+                    dest="alpha",
+                    type=float,
+                    default=0.5,
+                    help='Sets the number of interpolation alpha.')
+
 parser.add_argument('--reset',
                     dest="reset",
                     action='store_const',
@@ -272,7 +342,7 @@ parser.add_argument('--reset',
 
 args = parser.parse_args()
 
-if not (args.method == "Middle" or args.method == "Video" or args.method == "Population") :
+if not (args.method == "Middle" or args.method == "Video" or args.method == "Population" or args.method == "Space") :
     print("Invalid method!")
     exit()
 
@@ -290,7 +360,15 @@ if not points_exist(args.imgB):
     define_points(args.imgB)
 
 if args.method == "Middle":
-    compute_middle_face(args.imgA, args.imgB, args.out)
+    compute_middle_face(args.imgA, args.imgB, args.out, args.alpha)
+    exit()
 
 if args.method == "Video":
     compute_morph_video(args.imgA, args.imgB, args.out, args.depth)
+    exit()
+
+if not points_exist(args.imgC):
+    define_points(args.imgC)
+
+if args.method == "Space":
+    compute_space_morph(args.imgA, args.imgB, args.imgC, args.depth, args.alpha, args.out)
