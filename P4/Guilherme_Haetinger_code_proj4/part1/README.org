@@ -1,0 +1,8 @@
+#+TITLE: Part 1: Classification
+#+DATE:    March 26, 2020
+
+This module will reproduce the results of my report web page. To use it, just change the code in the following way:
+
+To train, change the boolean variable in =line 10=. If you don't have a GPU available to run the newest version of PyTorch, set this variable to True, because my saved CNN is based on CUDA, meaning it can't be serialized without a GPU (for some reason). The training will write on a file called "./new_cloth_net.pth", which you can, then set as input in =line 149= if you want to test out its result after the first iteration.
+
+At the end of the code, there are three executions of the code in my images. You can copy the code and input a few images of your own. Just remember, they must be one channeled and 28x28.

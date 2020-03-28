@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-03-26 Thu 13:55 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Classification and Segmentation</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="*Guilherme Gomes Haetinger* Guilherme Gomes Haetinger@@html:&lt;br /&gt;@@@@html:&lt;br /&gt;@@ University of California, Berkeley @@html:&lt;br /&gt;@@ CS194-26: Image Manipulation and Computational Photography" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style>pre.src{background:#343131;color:white;} </style>
+<style> .equation { vertical-align: middle; display: flex; justify-content: center; } .equation p {width: 30%;} .right {float: right} .lineup img {width: 25%}</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Classification and Segmentation</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org306d26a">1. Introduction</a></li>
+<li><a href="#orgc67080b">2. Classification</a>
+<ul>
+<li><a href="#org5f0f084">2.1. CNN Layout</a></li>
+<li><a href="#orgb0789b6">2.2. Training Accuracy</a></li>
+<li><a href="#orgedfef07">2.3. Filter Visualization</a></li>
+<li><a href="#org78f339d">2.4. What piece of clothing am I? A test more accurate than any <i>Buzzfeed</i> quiz!</a></li>
+</ul>
+</li>
+<li><a href="#org0cce40f">3. Segmentation</a>
+<ul>
+<li><a href="#org85b9dd6">3.1. CNN Layout</a></li>
+<li><a href="#org3774d3c">3.2. Results</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org306d26a" class="outline-2">
+<h2 id="org306d26a"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Throughout the past weeks, we&rsquo;ve been given a shallow understanding of how neural networks work and how we can represent the process for images, giving convolutional filtering and sampling as operations between the neural network layers. For this homework, we have to use the <i>PyTorch</i> library to create our Convolutional Neural Networks to extract features from the images and 1. Classify them between classes and 2. Classify each pixel between classes (Segmentation).<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc67080b" class="outline-2">
+<h2 id="orgc67080b"><span class="section-number-2">2</span> Classification</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The objective for this part is to load the Fashion database from the library and train a CNN (Convolutional Neural Network) to identify items of clothing. The output space given is of size 10, meaning we can classify the clothes between 10 different types (Shirt, Pants, &#x2026;).<br />
+</p>
+
+<p>
+Here are some examples and their given category:<br />
+</p>
+
+
+<div id="org79616c5" class="figure">
+<p><img src="./cloth_sample.png" alt="cloth_sample.png" width="50%" /><br />
+</p>
+<p><span class="figure-number">Figure 1: </span>Database examples</p>
+</div>
+</div>
+
+<div id="outline-container-org5f0f084" class="outline-3">
+<h3 id="org5f0f084"><span class="section-number-3">2.1</span> CNN Layout</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+For this problem, I tried following the same CNN layout of the <a href="https://pytorch.org/tutorials/beginner/blitz/neural_networks_tutorial.html">example</a> given in the project specification as well as the same Dataset loading system as this <a href="https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html">example</a>.<br />
+</p>
+
+
+<div class="figure">
+<p><img src="./CNN.png" alt="CNN.png" /><br />
+</p>
+<p><span class="figure-number">Figure 2: </span>CNN Structure example</p>
+</div>
+
+<p>
+As the process shows, we start with an input and with an order of operations, we end up with a correspondence coefficient for each class given, which, in this case, would be 10. The layout I designed is given by the following scheme:<br />
+</p>
+
+<div class="equation">
+<p>
+\(Input_{28\text{x}28}\)<br />
+\(\to Convolution2D_{\text{kernel size} = 5}(1 \to 32)\)<br />
+\(\to ReLU\)<br />
+\(\to MaxPool_{\text{kernel size, stride}=2}\)<br />
+\(\to Convolution2D_{\text{kernel size} = 3}(32 \to 32)\)<br />
+\(\to ReLU\)<br />
+\(\to MaxPool_{\text{kernel size}=2}\)<br />
+\(\to LinearFullyConnection(32\text{x}5\text{x}5 \to 120)\)<br />
+\(\to LinearFullyConnection(120 \to 10)\)<br />
+</p>
+
+</div>
+
+<p>
+The really specific numbers are there by the folowing reasons:<br />
+</p>
+<ul class="org-ul">
+<li>&ldquo;\(28\text{x}28\)&rdquo;: Database images resolution;<br /></li>
+<li>&ldquo;\(32\text{x}5\text{x}5\)&rdquo;: The output for the final convolution, i.e. <b>32 channels of 5x5 images</b>.<br /></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb0789b6" class="outline-3">
+<h3 id="orgb0789b6"><span class="section-number-3">2.2</span> Training Accuracy</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+I set the training to end once the loss had converged with an error of 0.05. After the training process, which, as contrast to my other <b>CS194-26</b> projects, took some time, I was able to achieve an overall precision of <b>92%</b> given the database as testing input (6000 pieces by category). We can see that the &ldquo;Shirt&rdquo; category is the one with the most inaccuracy. I sampled a few correct and a few incorrect samples to display.<br />
+</p>
+
+<div class="right">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Category</th>
+<th scope="col" class="org-right">Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">T-shirt/top</td>
+<td class="org-right">83%</td>
+</tr>
+
+<tr>
+<td class="org-left">Trousers</td>
+<td class="org-right">98%</td>
+</tr>
+
+<tr>
+<td class="org-left">Pullover</td>
+<td class="org-right">85%</td>
+</tr>
+
+<tr>
+<td class="org-left">Dress</td>
+<td class="org-right">93%</td>
+</tr>
+
+<tr>
+<td class="org-left">Coat</td>
+<td class="org-right">90%</td>
+</tr>
+
+<tr>
+<td class="org-left">Sandal</td>
+<td class="org-right">98%</td>
+</tr>
+
+<tr>
+<td class="org-left">Shirt</td>
+<td class="org-right">84%</td>
+</tr>
+
+<tr>
+<td class="org-left">Sneakers</td>
+<td class="org-right">97%</td>
+</tr>
+
+<tr>
+<td class="org-left">Bag</td>
+<td class="org-right">98%</td>
+</tr>
+
+<tr>
+<td class="org-left">Ankle Boot</td>
+<td class="org-right">97%</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+<div class="lineup">
+<p>
+Correct: <img src="./tshirt_correct.png" alt="tshirt_correct.png" />, Wrong: <img src="./tshirt_wrong.png" alt="tshirt_wrong.png" /><br />
+Correct: <img src="./shirt_correct.png" alt="shirt_correct.png" />, Wrong: <img src="./shirt_wrong.png" alt="shirt_wrong.png" /><br />
+Correct: <img src="./coat_correct.png" alt="coat_correct.png" />, Wrong: <img src="./coat_wrong.png" alt="coat_wrong.png" /><br />
+Correct: <img src="./trouser_correct.png" alt="trouser_correct.png" />, Wrong: <img src="./trouser_wrong.png" alt="trouser_wrong.png" /><br />
+Correct: <img src="./dress_correct.png" alt="dress_correct.png" />, Wrong: <img src="./dress_wrong.png" alt="dress_wrong.png" /><br />
+Correct: <img src="./sandals_correct.png" alt="sandals_correct.png" />, Wrong: <img src="./sandals_wrong.png" alt="sandals_wrong.png" /><br />
+Correct: <img src="./sneaker_correct.png" alt="sneaker_correct.png" />, Wrong: <img src="./sneaker_wrong.png" alt="sneaker_wrong.png" /><br />
+Correct: <img src="./ankle_correct.png" alt="ankle_correct.png" />, Wrong: <img src="./ankle_wrong.png" alt="ankle_wrong.png" /><br />
+Correct: <img src="./pullover_correct.png" alt="pullover_correct.png" />, Wrong: <img src="./pullover_wrong.png" alt="pullover_wrong.png" /><br />
+Correct: <img src="./bag_correct.png" alt="bag_correct.png" />, Wrong: <img src="./bag_wrong.png" alt="bag_wrong.png" /><br />
+</p>
+
+</div>
+
+<p>
+Correct samples to the left and incorrect samples and their correct categories to the right.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgedfef07" class="outline-3">
+<h3 id="orgedfef07"><span class="section-number-3">2.3</span> Filter Visualization</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Now, we can also visualize the final filter the CNN learned. These filters are responsible for the clothes feature extraction! You can also see that the resolution changes, obviously, considering that the filtered images in lower layers of the layout are smaller than the input.<br />
+</p>
+
+
+<div class="figure">
+<p><img src="./filters.png" alt="filters.png" width="50%" /><br />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org78f339d" class="outline-3">
+<h3 id="org78f339d"><span class="section-number-3">2.4</span> What piece of clothing am I? A test more accurate than any <i>Buzzfeed</i> quiz!</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+Well, the CNN doesn&rsquo;t have &ldquo;Human&rdquo; as one of the categories, so I decided to test out what kind of wearable am I by giving a picture of me as an input. To make it as an input, I had to resize my image to \(28\text{x}28\), make it one-channeled and invert is so that the background would seem darker and more like the database images.<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./cropped.jpg" alt="cropped.jpg" /> &rarr; <img src="./bw.jpg" alt="bw.jpg" /> &rarr; <img src="./cropped_bw_inv.jpg" alt="cropped_bw_inv.jpg" /><br />
+</p>
+</div>
+
+<p>
+It turns out that the program identified me as a <b>BAG</b>. Never knew I was a bag person, but I guess if I trust those <i>Buzzfeed</i> quizzes I might as well trust a 92% accuracy clothing classifier.<br />
+</p>
+
+<p>
+Jokes aside, I decided to test out if the program would identify my jacket as something closer to it. So I did the same process for my jacket, but rotating a little bit more so it would be in an upright position.<br />
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./bw_inv_rsz.jpg" alt="bw_inv_rsz.jpg" /><br />
+</p>
+</div>
+</div>
+
+<p>
+Finally, it classified my jacket as <b>Shirt</b>, which I believe is much more accurate than bag.<br />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0cce40f" class="outline-2">
+<h2 id="org0cce40f"><span class="section-number-2">3</span> Segmentation</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+This part had as input a database of facades for which we needed to classify every pixel between 5 categories (Facade, Window, Pillar, Balcony or Other).<br />
+</p>
+</div>
+<div id="outline-container-org85b9dd6" class="outline-3">
+<h3 id="org85b9dd6"><span class="section-number-3">3.1</span> CNN Layout</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+To create this CNN, I had the challenge to maintain the image resolution. So I decided to do the following based on the <code>torch</code> library&rsquo;s documentation.<br />
+</p>
+
+<div class="equation">
+<p>
+\(Input_{256\text{x}256}\)<br />
+\(\to Convolution2D_{\text{kernel size} = 2}(3 \to 50)\)<br />
+\(\to ReLU\)<br />
+\(\to MaxPool_{\text{kernel size}=2}\)<br />
+\(\to Convolution2D_{\text{kernel size} = 2}(50 \to 200)\)<br />
+\(\to ReLU\)<br />
+\(\to MaxPool_{\text{kernel size}=2}\)<br />
+\(\to Convolution2D_{\text{kernel size} = 2}(200 \to 1000)\)<br />
+\(\to Convolution2D_{\text{kernel size} = 2}(1000 \to 2000)\)<br />
+\(\to Convolution2D_{\text{kernel size} = 2}(2000 \to 4000)\)<br />
+\(\to Convolution2D_{\text{kernel size} = 2}(4000 \to 5)\)<br />
+\(\to TransposeConvolution2D_{\text{kernel size} = 6}(5 \to 5)\)<br />
+\(\to Upsample_{\text{kernel size} = 4}\)<br />
+</p>
+
+</div>
+
+<p>
+The last two operations are to restore the image resolution (get the resolution to 64 and the upsample it to 256). I tried adding more pooling, but PyTorch&rsquo;s assigned RAM allocation didn&rsquo;t let me do much about it and I had to keep resetting my <code>runtime</code> in Google Collab. This training took a lot more time to finish due to the amount of channels in each layer. The parameters that gave me the best output were the following:<br />
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Variable</th>
+<th scope="col" class="org-right">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Batch size</td>
+<td class="org-right">10</td>
+</tr>
+
+<tr>
+<td class="org-left">Epoch</td>
+<td class="org-right">50</td>
+</tr>
+
+<tr>
+<td class="org-left">Optimizer</td>
+<td class="org-right">Adam</td>
+</tr>
+
+<tr>
+<td class="org-left">Loss</td>
+<td class="org-right">Cross Entropy</td>
+</tr>
+
+<tr>
+<td class="org-left">Learning Rate</td>
+<td class="org-right">1e-3</td>
+</tr>
+
+<tr>
+<td class="org-left">Weight Decay</td>
+<td class="org-right">1e-5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org3774d3c" class="outline-3">
+<h3 id="org3774d3c"><span class="section-number-3">3.2</span> Results</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+The final results showed that my CNN design could be much better. Given the started code, I got the Average Precisions to be the following:<br />
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">AP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0.5849584324393532</td>
+</tr>
+
+<tr>
+<td class="org-right">0.6778363076345995</td>
+</tr>
+
+<tr>
+<td class="org-right">0.105562571844215</td>
+</tr>
+
+<tr>
+<td class="org-right">0.71513114920715</td>
+</tr>
+
+<tr>
+<td class="org-right">0.35387022679519115</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+In spite of 2 bad results, the CNN achieved an overall mean of <code>0.48</code> AP. We can see its execution by the following images:<br />
+</p>
+
+<div class="org-center">
+<div class="lineup">
+<p>
+<img src="./facade.png" alt="facade.png" /> &rarr; <img src="./facade_cnn.png" alt="facade_cnn.png" /><br />
+</p>
+
+</div>
+</div>
+
+<p>
+Although it didn&rsquo;t find the balconies, the rest seems to be in good shape, mostly the windows.<br />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: <b>Guilherme Gomes Haetinger</b> <br /><br /> University of California, Berkeley <br /> CS194-26: Image Manipulation and Computational Photography</p>
+<p class="date">Created: 2020-03-26 Thu 13:55</p>
+</div>
+</body>
+</html>

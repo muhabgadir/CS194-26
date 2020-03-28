@@ -1,0 +1,4 @@
+#+TITLE:   Part 2: Segmentation
+#+DATE:    March 26, 2020
+
+Considering that this part has heavy processing, I recommend using a GPU. The same as part 1, to train, you have to change a variable. This time, it can be found in the first line of the main function. This program will also reproduce my results, so it will load the CNN I have already processed. Please add this file with the files provided in the sample code directory, meaning the database or else it wont work. Seen as I can't upload it to Bcourses, it is only logical that you do so. If you want to make your own training, change the value of the variable =name= to save the file somewhere else. If you want to run your already processed CNN, just set train to False and set the name of your model in the variable =name=. The CNNs are saved in the model directory. For the loss graph (Train x Test) to show, you need to run the training.
