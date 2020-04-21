@@ -1,0 +1,7 @@
+# Project 5
+## 5A
+To run this code, you can use the main file's module *image_warpper* to load 2 images, apply the correspondences and get the result out of it. To do so, just initialize the module instance with 2 image paths and a number of points you want to input. It will save the points if you want to run it again. If you want to reset the points, delete the *.p* files. Once initialized, you can run *test_H* to test whether *H* gives you an expected result (for N > 4 this doesn't make sense since it won't be exact but more of an approximation). To morph the images, run *compute_morph* and to show or save the results run *show_result* or *save_result*
+
+Images are expected to have 3 channels!
+
+If the code runs into an indexing problem or eats all the RAM, it means that the calculated H is giving a really spreaded result, meaning you would have to try again with a different pair of point sets.

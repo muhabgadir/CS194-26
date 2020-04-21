@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-04-17 Fri 14:30 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>[Auto]Stitching Photo Mosaics</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="*Guilherme Gomes Haetinger* Guilherme Gomes Haetinger@@html:&lt;br /&gt;@@@@html:&lt;br /&gt;@@ University of California, Berkeley @@html:&lt;br /&gt;@@ CS194-26: Image Manipulation and Computational Photography" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style>pre.src{background:#343131;color:white;} </style>
+<style>img { width: 45%; } .equ img { width: 20%; } </style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">[Auto]Stitching Photo Mosaics</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orge7046eb">1. Introduction</a></li>
+<li><a href="#org6eb74c5">2. Image Warping and Mosaicing</a>
+<ul>
+<li><a href="#org18fa754">2.1. Pictures</a></li>
+<li><a href="#org4c5bbb7">2.2. Recover Homographies</a></li>
+<li><a href="#org9e8f067">2.3. Warp the Images</a></li>
+<li><a href="#org8c356e1">2.4. Image Rectification</a></li>
+<li><a href="#orga1f71c5">2.5. Mosaic Blending</a></li>
+<li><a href="#orgd988b37">2.6. What I learned</a></li>
+</ul>
+</li>
+<li><a href="#orgd36ed9b">3. Auto-Stitching</a>
+<ul>
+<li><a href="#org7c9b3d7">3.1. Adaptive Non-Maximal Suppression</a></li>
+<li><a href="#org53c5bf3">3.2. Feature Description Extraction</a></li>
+<li><a href="#orgbc975ee">3.3. Feature Matching</a></li>
+<li><a href="#orgfcb8ef2">3.4. RANSAC - Computing the Homographies</a></li>
+<li><a href="#org0a79924">3.5. Stitching a Panorama</a></li>
+</ul>
+</li>
+<li><a href="#orgdbb434d">4. What I learned and What I wished I had done</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge7046eb" class="outline-2">
+<h2 id="orge7046eb"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This project consists of transforming images so they can stitch together. I&rsquo;ll describe how to distort a plane to match certain correspondences. I will also describe how to find the correspondences automatically and how this can make the results much better looking!<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6eb74c5" class="outline-2">
+<h2 id="org6eb74c5"><span class="section-number-2">2</span> Image Warping and Mosaicing</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+This part of the project was definitely a rushed bit. It was due less than a week after it was released, so my results might not be the best.<br />
+</p>
+</div>
+<div id="outline-container-org18fa754" class="outline-3">
+<h3 id="org18fa754"><span class="section-number-3">2.1</span> Pictures</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+I took two pictures of the view outside my balcony in Porto Alegre, Brazil. I couldn&rsquo;t do anything other than that due to the shelter in place demanded by the local government. My building&rsquo;s facade is under repairs so it has a weird cloth around it that happens to be in my pictures. The photos I took are the following:<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./first.jpg" alt="first.jpg" /> <img src="./second.jpg" alt="second.jpg" /><br />
+</p>
+</div>
+
+<p>
+Other than that, because the results with the image above weren&rsquo;t the best, I also applied the algorithm to some images of the <a href="https://sourceforge.net/adobe/adobedatasets/panoramas/home/Home/">Adobe panoramic images database</a>.<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./PartB/rio-26.png" alt="rio-26.png" /> <img src="./PartB/rio-27.png" alt="rio-27.png" /><br />
+<img src="./carmel-07.png" alt="carmel-07.png" /> <img src="./carmel-08.png" alt="carmel-08.png" /><br />
+<img src="./goldengate-03.png" alt="goldengate-03.png" /> <img src="./goldengate-04.png" alt="goldengate-04.png" /><br />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org4c5bbb7" class="outline-3">
+<h3 id="org4c5bbb7"><span class="section-number-3">2.2</span> Recover Homographies</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+To recover the homographies, I had to do the following math reasonings:<br />
+</p>
+
+<div class="org-center">
+<div class="equ">
+<p>
+We have that the equation given in lecture can be transformed in 2 equations<br />
+<img src="./1st.png" alt="1st.png" /> <img src="./2nd.png" alt="2nd.png" /><br />
+These equations can be turned into a linear system that can be used for given <b>N</b> points. We also know that <b>i = 1</b>.<br />
+<img src="./3rd.png" alt="3rd.png" /> <img src="./4th.png" alt="4th.png" /><br />
+To express this constraint, we can simply add the last coefficient value to the results.<br />
+<img src="./5th.png" alt="5th.png" /><br />
+</p>
+
+</div>
+</div>
+
+<p>
+To solve this in python, we can call <code>numpy.lstsq</code>, which approximates the overdetermined system using the least square method.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9e8f067" class="outline-3">
+<h3 id="org9e8f067"><span class="section-number-3">2.3</span> Warp the Images</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+After discovering the homographies, we need to apply the transformation matrix \(H\) to all the pixels. In my method, I got a coordinate matrix from <code>skimage.draw.polygon</code> that refers to a rectangle and multiplied it by the inverse of \(H\) in order to inverse warp the transformation. Once having the new points, I divide them by their remaining \(w\) and colored the new &ldquo;Canvas&rdquo;.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8c356e1" class="outline-3">
+<h3 id="org8c356e1"><span class="section-number-3">2.4</span> Image Rectification</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+Once we warped the image, we would have a rectified picture. For the final blend, I used this geometry:<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./first_marked.jpg" alt="first_marked.jpg" /> <img src="./second_marked.jpg" alt="second_marked.jpg" /><br />
+</p>
+</div>
+
+<p>
+Now, applying the transformation to the image on the right, we get the following result:<br />
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./second_warpped.jpg" alt="second_warpped.jpg" /><br />
+</p>
+</div>
+</div>
+
+<p>
+Another example was to rectify this Versailles Palace image to make it planar:<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./versa.jpg" alt="versa.jpg" /> <img src="./versa_rect.jpg" alt="versa_rect.jpg" /><br />
+<img src="./versa_rect_cropped.jpg" alt="versa_rect_cropped.jpg" /><br />
+</p>
+</div>
+
+<p>
+You can see that my algorithm crops the image when the intended position would be negative (disregarding the translation) and also can get some errors while calculating the image space. Even though in the end these errors are either not that problematic, it can cause some errors during execution.<br />
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orga1f71c5" class="outline-3">
+<h3 id="orga1f71c5"><span class="section-number-3">2.5</span> Mosaic Blending</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Having the warpped image, it&rsquo;s time to blend them together! We do so by generating a canvas large enough to contain both images. Since both will be mapped in the same proposed space (pixels of correspondence in the same place), the blending ends up being more of an alpha calibration blending. To do the calibration, I used a cosine function powered to a given exponent. I also decided to start blending after we had reached the middle of the image, which I realize that wouldn&rsquo;t work if we had more than 50% of overlapping. Also, I only set my program to blend in the left to right direction. The alpha blending equation results are the following given an exponent:<br />
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./graph.jpg" alt="graph.jpg" /><br />
+</p>
+</div>
+</div>
+
+<p>
+These were the results:<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./blend_result_1_4.jpg" alt="blend_result_1_4.jpg" /> <img src="./blend_result_1_2.jpg" alt="blend_result_1_2.jpg" /><br />
+exponent \(\frac{1}{4}\) on the left and \(\frac{1}{2}\) on the right.<br />
+<img src="./blend_result_1.jpg" alt="blend_result_1.jpg" /><br />
+exponent \(1\).<br />
+<img src="./blend_result_2.jpg" alt="blend_result_2.jpg" /> <img src="./blend_result_4.jpg" alt="blend_result_4.jpg" /><br />
+exponent \(2\) on the left and \(4\) on the right.<br />
+</p>
+</div>
+
+<p>
+Given these results, I decided that the exponent of \(2\) gave me the best result because it blended well without losing too much of the first image.<br />
+</p>
+
+<p>
+We can see, however, that the results for my balcony images weren&rsquo;t great. Given the image distortion created by me cellphone, the image seems much more angled than it should. Here are the results with the pictures from the Adobe datsaset, which have been taken without as much distortion:<br />
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./Rio.jpg" alt="Rio.jpg" /><br />
+</p>
+</div>
+
+<p>
+I think this one looks great even with a little bit of error around the &ldquo;Pão de Açúcar&rdquo;. I set the points to be around the last building from left to right and a line around the top of the &ldquo;Pão de Açúcar&rdquo;. I picked 6 points.<br />
+</p>
+
+
+<div class="figure">
+<p><img src="./Carmel.jpg" alt="Carmel.jpg" /><br />
+</p>
+</div>
+
+<p>
+This one turned out much better than I expected. The angle difference is subtle but once in panoramic view, we can definitely see it. I used 6 points, drew 2 triangles around the front bush and the rocks on the back.<br />
+</p>
+
+
+<div class="figure">
+<p><img src="./Golden.jpg" alt="Golden.jpg" /><br />
+</p>
+</div>
+
+<p>
+This picture is my best result. I chose the points to be around the pillar and on the light posts. I picked 6 points.<br />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgd988b37" class="outline-3">
+<h3 id="orgd988b37"><span class="section-number-3">2.6</span> What I learned</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+Well, I definitely learned how to solve some tricky linear systems with python. Overall, I think that I mostly got the idea behind homographies, which wasn&rsquo;t very clear for me in lecture. I also learned, with the help of Shivam, that pictures taken with cellphones can get unwanted distortions for a panoramic mosaic.<br />
+</p>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgd36ed9b" class="outline-2">
+<h2 id="orgd36ed9b"><span class="section-number-2">3</span> Auto-Stitching</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+In this section, I&rsquo;ll explain how I implemented the Auto-stitching method for some given images. I&rsquo;ll use more than 2 images for mosaicing as well.<br />
+</p>
+</div>
+
+<div id="outline-container-org7c9b3d7" class="outline-3">
+<h3 id="org7c9b3d7"><span class="section-number-3">3.1</span> Adaptive Non-Maximal Suppression</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+This part of the algorithm is designed to remove bad edges found by the harris algorithm. We were given the algorithm done and were able to use the edge discard parameter to disregard some found edges. I used <b>150</b> as this parameter for both the Rio de Janeiro images as for the Shanghai images while used <b>100</b> for the Goldengate images considering that it showed it needed more precise edges and I was probably removing the best ones without knowing (my program was crashing or giving out unthinkable results).<br />
+</p>
+
+<p>
+To implement this part, I looked at every point returned by the harris function and checked out the best points for a radius neighborhood. At every iteration, increased the radius by 5 and checked whether I had the goal number of best edges. I aimed for 300 final edges in all images. This idea doesn&rsquo;t scale really well for big images. Thus, when we start stitching the images together and getting bigger and bigger images, it becomes really slow, reaching 2min of computation for 15000 harris corners.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org53c5bf3" class="outline-3">
+<h3 id="org53c5bf3"><span class="section-number-3">3.2</span> Feature Description Extraction</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Once we have the corners, we need to check whether they have any correspondences in the other image. To do that, we need a descriptor for every corner good enough to describe the pixels around the corner to match its correspondence, but also compact enough so this doesn&rsquo;t take a year to compute (300 features compared with 300 features makes 300 * 300 comparisons in my case&#x2026; not really worth it). So I create a 40x40 bounding box around the corner, I blur it with a gaussian kernel in order to get a 8x8 descriptor. E. g.<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./PartB/image_patch_point_example.png" alt="image_patch_point_example.png" /> <img src="./PartB/40x40patch_example.png" alt="40x40patch_example.png" /><br />
+<img src="./PartB/8x8patch_example.png" alt="8x8patch_example.png" /><br />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbc975ee" class="outline-3">
+<h3 id="orgbc975ee"><span class="section-number-3">3.3</span> Feature Matching</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Now that we have the descriptor, we need to match the features to the other image&rsquo;s. The threshold proposed by <a href="http://inst.eecs.berkeley.edu/~cs194-26/sp20/Papers/MOPS.pdf">Brown&rsquo;s paper</a> can be used to filter out bad feature matches. First, we compute the Sum of Squared Differences from all features to all the other image&rsquo;s features (300 x 300). If the best match for a given feature has the calculated SSD to be less than 20% of the second best match&rsquo;s SSD, we accept that match to be a unique edge correspondence and add them to the new edge correspondence set. We&rsquo;ll see that we are able to filter out around 280 out of those 300 features.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfcb8ef2" class="outline-3">
+<h3 id="orgfcb8ef2"><span class="section-number-3">3.4</span> RANSAC - Computing the Homographies</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+We now have a map of correspondences and need to compute the morph. We can run RANSAC. This algorithm will consist of sampling 4 matches, computing the homography and checking how many of the matches in the full set are within a given error from the aimed point. I set the threshold to be 4 in a pixel space for a calculated euclidean squared distance from \(p\) to \(p'\). We add every transformed match that fits the error into a set. We maximisze the size of this set. Once we have the largest set, we have the optimal matches. We recalculate the homography with the least squares method. We have the transformation. We apply it and blend it.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0a79924" class="outline-3">
+<h3 id="org0a79924"><span class="section-number-3">3.5</span> Stitching a Panorama</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+My first idea was to compute the rightmost stitch, the leftmost, then the rightmost again and so on until I found the middle. That didn&rsquo;t turn out really well because I would have to redo all my rectification algorithm. So I kept stitching new images to the left!<br />
+</p>
+
+<p>
+The manual image stitching results are the following for the following landscapes: Rio de Janeiro (4 images), Shanghai (4 images) and the Golden Gate (4 images). I manually inputted 6 correspondence points in all the images.<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./PartB/rio-blend-final-manual.png" alt="rio-blend-final-manual.png" /><br />
+<img src="./PartB/shanghai-blend-final-manual.png" alt="shanghai-blend-final-manual.png" /><br />
+<img src="./PartB/goldengate-blend-final-manual.png" alt="goldengate-blend-final-manual.png" /><br />
+</p>
+</div>
+
+<p>
+You can see that it doesn&rsquo;t look really good. I even had to redo this a thousand times just so it looked aligned. There are a lot of problems by stitching more than 2 images together.<br />
+</p>
+
+<p>
+The automatic image stitching results are the following for the following landscapes: Rio de Janeiro (5 images), Shanghai (4 images) and the Golden Gate (4 images).<br />
+</p>
+
+<div class="org-center">
+<p>
+<img src="./PartB/rio-blend-final.png" alt="rio-blend-final.png" /><br />
+<img src="./PartB/shanghai-blend-final.png" alt="shanghai-blend-final.png" /><br />
+<img src="./PartB/goldengate-blend-final.png" alt="goldengate-blend-final.png" /><br />
+</p>
+</div>
+
+<p>
+It&rsquo;s clear that these results are much better. Not only they must have considered more than 6 points, but they were definitely more precise! There are no abrupt distortions or any big issue with these results! The Shanghai result has a problem with the boat that probably was in movement during the picture, but this only helps proving that the results are so well calculated that it probably only removes the boat edges on the RANSAC algorithm!<br />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdbb434d" class="outline-2">
+<h2 id="orgdbb434d"><span class="section-number-2">4</span> What I learned and What I wished I had done</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+This was the project I had the most fun doing. I feel like the results turned out super nice but still with room for improvement. Understanding how we can assign new perspectives with a few parameters for a given image is something I didn&rsquo;t really think about until this project, which makes some technologies such as AR more understandable.<br />
+</p>
+
+<p>
+I really wish I had more time to do the Bells &amp; Whistles. I wanted to improve my blending, which looks good but it&rsquo;s still noticeable. I wanted to do Laplacian Stacking or calculate the overlapping areas to apply my Cosine blending (I think this would look surprisingly good). I also wanted to understand the orientation feature and apply them to the descriptor as well as make some video stitching.<br />
+</p>
+
+<p>
+All of this that has been going on with the Pandemic really threw me out of my game and I almost didn&rsquo;t have time to do this. I&rsquo;ll definitely try finishing this with Bells &amp; Whistles over summer break.<br />
+</p>
+
+<div class="org-center">
+
+<div class="figure">
+<p><img src="./PartB/window_final_blend.jpg" alt="window_final_blend.jpg" /><br />
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: <b>Guilherme Gomes Haetinger</b> <br /><br /> University of California, Berkeley <br /> CS194-26: Image Manipulation and Computational Photography</p>
+<p class="date">Created: 2020-04-17 Fri 14:30</p>
+</div>
+</body>
+</html>
